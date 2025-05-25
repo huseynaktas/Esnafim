@@ -1,0 +1,95 @@
+﻿@model UpdateBusinessDto
+
+@{
+    ViewData["Title"] = "UpdateBusiness";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+@await Html.PartialAsync("/Areas/Admin/Views/AdminLayout/AdminPluginsCssLinkPartial.cshtml")
+
+<div class="row justify-content-center align-items-center">
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">İşletme Güncelleme Sayfası</h4>
+
+                <form method="post">
+                    <input type="hidden" asp-for="businessId" />
+
+
+                    <div class="form-group">
+                        <label for="exampleInputName">İşletme Adı</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputName" asp-for="businessName" readonly="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputImageUrl">Resim Yolu</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputImageUrl" asp-for="imageUrl" readonly="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputCity">İl</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputCity" asp-for="city" readonly="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputDitrict">İlçe</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputDitrict" asp-for="district" readonly="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputNeigh">Mahalle</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputNeigh" asp-for="neighborhood" readonly="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputAddress">Adres</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputAddress" asp-for="address" readonly="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputLat">Enlem</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputLat" asp-for="latitude" readonly="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputLong">Boylam</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputLong" asp-for="longitude" readonly="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputTel">Telefon</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputTel" asp-for="businessPhone" readonly="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail">Email</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputEmail" asp-for="email" readonly="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputRegDate">Kayıt Tarihi</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputRegDate" asp-for="registrationDate" readonly="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputWorkHours">Çalışma Saatleri</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputWorkHours" asp-for="workingHours" readonly="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEntNum">İşletme Numarası</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputEntNum" asp-for="enterpriseNumber" readonly="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputIsActive">Aktif Mi?</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputIsActive" asp-for="isActive" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary waves-effect waves-light">Güncelle</button>
+                </form>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div>
+</div>

@@ -1,0 +1,43 @@
+﻿@model UpdateBannerDto
+
+@{
+    ViewData["Title"] = "UpdateBanner";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+@await Html.PartialAsync("/Areas/Admin/Views/AdminLayout/AdminPluginsCssLinkPartial.cshtml")
+
+<div class="row justify-content-center align-items-center">
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Banner Güncelleme Sayfası</h4>
+
+                <form method="post">
+                    <input type="hidden" asp-for="bannerId" />
+                    <div class="form-group">
+                        <label for="exampleInputTitle">Başlık</label>
+                        <input type="text" class="form-control" maxlength="50" id="exampleInputTitle" asp-for="title" />
+                    </div>
+                    <div class="form-group">
+                        <label>Açıklama</label>
+                        <textarea class="form-control" maxlength="1000" rows="10" placeholder="This textarea has a limit of 1000 chars." asp-for="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputVideoDesc">Video Açıklaması</label>
+                        <input type="text" class="form-control" maxlength="50" id="exampleInputVideoDesc" asp-for="videoDescription" />
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputVideoUrl">Video Url</label>
+                        <input type="text" class="form-control" maxlength="50" id="exampleInputVideoUrl" asp-for="videoUrl" />
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">Güncelle</button>
+
+                    </div>
+                </form>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div>
+</div>

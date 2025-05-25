@@ -1,0 +1,35 @@
+﻿@model UpdateBusinessCategoryDto
+
+@{
+    ViewData["Title"] = "UpdateBusinessCategory";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+@await Html.PartialAsync("/Areas/Admin/Views/AdminLayout/AdminPluginsCssLinkPartial.cshtml")
+
+<div class="row justify-content-center align-items-center">
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Rol Güncelleme Sayfası</h4>
+
+                <form method="post">
+                    <input type="hidden" asp-for="businessCategoryId" />
+
+                    <div class="form-group">
+                        <label for="exampleInputName">İsim</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputName" asp-for="name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputIsActive">Aktif Mi?</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputIsActive" asp-for="isActive" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary waves-effect waves-light">Güncelle</button>
+                </form>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div>
+</div>

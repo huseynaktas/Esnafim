@@ -1,0 +1,69 @@
+﻿@model List<ResultBusinessDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+@await Html.PartialAsync("/Areas/Admin/Views/AdminLayout/AdminDataTablesCssLinkPartial.cshtml")
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">İşletme Listesi</h4>
+
+                <table id="selection-datatable" class="table dt-responsive nowrap">
+                    <thead>
+                        <tr>
+                            <th>İsim</th>
+                            <th>Telefon</th>
+                            <th>Mail</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>Çalışma Saatleri</th>
+                            <th>İşletme Numarası</th>
+                            <th>Aktif Mi?</th>
+                            <th>Güncelle</th>
+                            <th>
+                                <div>İkamet Detayları</div>
+                            </th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.businessName</td>
+                                <td>@item.businessPhone</td>
+                                <td>@item.email</td>
+                                <td>@item.registrationDate</td>
+                                <td>@item.workingHours</td>
+                                <td>@item.enterpriseNumber</td>
+                                <td>@(item.isActive ? "Aktif" : "Pasif")</td>
+                                <td>
+                                    <a href="/Admin/AdminBusiness/UpdateBusiness/@item.businessId" class="btn btn-sm btn-outline-primary btn-rounded waves-effect waves-light mx-1">
+                                        Güncelle
+                                    </a>
+                                </td>
+                                <td>
+                                    <div>
+                                        <ul>
+                                            <li>Şehir: @item.city</li>
+                                            <li>İlçe: @item.district</li>
+                                            <li>Mahalle: @item.neighborhood</li>
+                                            <li>Adres: @item.address</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div><!-- end col-->
+</div>

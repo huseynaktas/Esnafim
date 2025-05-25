@@ -1,0 +1,39 @@
+﻿@model UpdateServiceDto
+
+@{
+    ViewData["Title"] = "UpdateService";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+@await Html.PartialAsync("/Areas/Admin/Views/AdminLayout/AdminPluginsCssLinkPartial.cshtml")
+
+<div class="row justify-content-center align-items-center">
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Servis Güncelleme Sayfası</h4>
+
+                <form method="post">
+                    <input type="hidden" asp-for="serviceId" />
+
+                    <div class="form-group">
+                        <label for="exampleInputTitle">Başlık</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputTitle" asp-for="title" />
+                    </div>
+                    <div class="form-group">
+                        <label>Açıklama</label>
+                        <textarea class="form-control" maxlength="1000" rows="3" placeholder="This textarea has a limit of 1000 chars." asp-for="description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputIconUrl">İkon Url</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputIconUrl" asp-for="iconUrl"/>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary waves-effect waves-light">Güncelle</button>
+                </form>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div>
+</div>

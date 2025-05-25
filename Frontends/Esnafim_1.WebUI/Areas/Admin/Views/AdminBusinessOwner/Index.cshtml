@@ -1,0 +1,52 @@
+﻿@model List<ResultBusinessOwnerDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="row justify-content-center align-items-center">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">İşletme Sahipleri</h4>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>İsim</th>
+                                <th>Telefon</th>
+                                <th>Şehir</th>
+                                <th>Mail</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>Aktiflik Durumu</th>
+                                <th>Güncelle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td>@item.name</td>
+                                    <td>@item.phoneNumber</td>
+                                    <td>@item.city</td>
+                                    <td>@item.email</td>
+                                    <td>@item.registrationDate</td>
+                                    <td>@(item.isActive ? "Aktif" : "Pasif")</td>
+                                    <td><a href="/Admin/AdminBusinessOwner/UpdateBusinessOwner/@item.businessOwnerId" class="btn btn-outline-info">Güncelle</a></td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!-- end card-body-->
+        </div>
+        <!-- end card -->
+
+    </div>
+</div>
+<!-- end col -->

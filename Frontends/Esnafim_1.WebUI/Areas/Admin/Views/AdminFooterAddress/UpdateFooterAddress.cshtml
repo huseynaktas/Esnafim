@@ -1,0 +1,43 @@
+﻿@model UpdateFooterAddressDto
+
+@{
+    ViewData["Title"] = "UpdateFooterAddress";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+@await Html.PartialAsync("/Areas/Admin/Views/AdminLayout/AdminPluginsCssLinkPartial.cshtml")
+
+<div class="row justify-content-center align-items-center">
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Alt Adres Güncelleme Sayfası</h4>
+
+                <form method="post">
+                    <input type="hidden" asp-for="footerAddressId" />
+                    <div class="form-group">
+                        <label>Açıklama</label>
+                        <textarea class="form-control" maxlength="1000" rows="3" placeholder="This textarea has a limit of 1000 chars." asp-for="description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputAddress">Adres</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputAddress" asp-for="address" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputPhone">Telefon</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputPhone" asp-for="phoneNumber" placeholder="XXXX XXXX XX"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputMail">Email</label>
+                        <input type="text" maxlength="100" class="form-control" id="exampleInputMail" asp-for="email" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary waves-effect waves-light">Güncelle</button>
+                </form>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div>
+</div>

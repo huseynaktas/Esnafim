@@ -1,0 +1,48 @@
+﻿@model List<ResultFooterAddressDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="row justify-content-center align-items-center">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Alt Adres</h4>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Açıklama</th>
+                                <th>Adres</th>
+                                <th>Telefon Numarası</th>
+                                <th>Email</th>
+                                <th>Güncelle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td>@item.description</td>
+                                    <td>@item.address</td>
+                                    <td>@item.phoneNumber</td>
+                                    <td>@item.email</td>
+                                    <td><a href="/Admin/AdminFooterAddress/UpdateFooterAddress/@item.footerAddressId" class="btn btn-outline-info">Güncelle</a></td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!-- end card-body-->
+        </div>
+        <!-- end card -->
+
+    </div>
+</div>
+<!-- end col -->

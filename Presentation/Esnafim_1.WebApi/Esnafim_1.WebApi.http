@@ -1,0 +1,6 @@
+@Esnafim_1.WebApi_HostAddress = http://localhost:5090
+
+GET {{Esnafim_1.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

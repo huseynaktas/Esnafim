@@ -1,0 +1,48 @@
+﻿@model List<ResultRoleDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="row justify-content-center align-item-center">
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="table-responsive"> 
+                    <table class="table table-borderless mb-0 text-center">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Rol Adı</th>
+                                <th>Aktiflik Durumu</th>
+                                <th>Güncelle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.name</td>
+                                    <td>@(item.isActive ? "Aktif" : "Pasif")</td>
+                                    <td>
+                                        <a href="/Admin/AdminRole/UpdateRole/@item.roleId" class="btn btn-sm btn-outline-primary btn-rounded waves-effect waves-light mx-1">
+                                            Güncelle
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!-- end card-body-->
+        </div>
+        <!-- end card -->
+
+    </div>
+</div>
+<!-- end col -->

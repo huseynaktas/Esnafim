@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+
+<html lang="en">
+@await Component.InvokeAsync("_HeadUILayoutComponentPartial")
+<body>
+
+    @await Component.InvokeAsync("_NavbarUILayoutComponentPartial")
+    <!-- END nav -->
+
+    @* ANA SAYFA *@
+
+    @* Banner *@
+    @await Component.InvokeAsync("_BannerComponentPartial")
+    
+
+    @* Esnaflar *@
+    @await Component.InvokeAsync("_GetLast4BusinessComponentPartial")
+    
+
+    @* Hakkımızda *@
+    @await Component.InvokeAsync("_AboutUsComponentPartial")
+
+    @* Servisler *@
+    @await Component.InvokeAsync("_ServiceComponentPartial")
+
+    @* Become a driver *@
+    @await Component.InvokeAsync("_BecomeAEmployeeComponentPartial")
+
+
+    @* Referanslar *@
+    @await Component.InvokeAsync("_TestimonialComponentPartial")
+
+    @* İstatistikler *@
+    @await Component.InvokeAsync("_DefaultStaticsComponentPartial")
+
+    @await Component.InvokeAsync("_FooterUILayoutComponentPartial")
+
+
+    @await Component.InvokeAsync("_ScriptUILayoutComponentPartial")
+
+</body>
+</html>

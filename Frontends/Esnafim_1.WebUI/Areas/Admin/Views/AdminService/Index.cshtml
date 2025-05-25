@@ -1,0 +1,45 @@
+﻿@model List<ResultServiceDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="row justify-content-center align-items-center">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Servisler</h4>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Başlık</th>
+                                <th>Açıklama</th>
+                                <th>İkon Url</th>
+                                <th>Güncelle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.title</td>
+                                    <td>@item.description</td>
+                                    <td>@item.iconUrl</td>
+                                    <td><a href="/Admin/AdminService/UpdateService/@item.serviceId" class="btn btn-outline-primary waves-effect waves-light">Güncelle</a></td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!-- end card-body-->
+        </div>
+        <!-- end card -->
+
+    </div>
+</div>
+<!-- end col -->

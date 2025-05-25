@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/UILayout/Index.cshtml";
+}
+
+@* İşletmeler *@
+
+@await Component.InvokeAsync("_BusinessMainCoverComponentPartial")
+@await Component.InvokeAsync("_AllBusinessComponentPartial")
+

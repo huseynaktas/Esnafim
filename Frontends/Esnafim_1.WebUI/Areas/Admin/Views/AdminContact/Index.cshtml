@@ -1,0 +1,52 @@
+﻿@model List<ResultContactDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="row justify-content-center align-items-center">
+    @foreach (var item in Model)
+    {
+        <div class="col-xl-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">@item.name</h4>
+                    <p class="card-subtitle mb-4">Mail: @item.email</p>
+                    <p class="card-subtitle mb-4">Konu: @item.subject</p>
+                    <p class="card-subtitle mb-4">Tarih: @item.sendDate.ToShortDateString()</p>
+                    <p class="card-subtitle mb-4">Saat: @item.sendDate.ToShortTimeString()</p>
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#exampleModalCenter">
+                        Detay
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle">@item.name</h5>
+                                    <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    @item.message
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary waves-effect waves-light" data-dismiss="modal">Kapat</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- end card-body-->
+            </div>
+            <!-- end card -->
+        </div>
+
+    }
+</div>

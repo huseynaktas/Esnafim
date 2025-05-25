@@ -1,0 +1,45 @@
+﻿@model List<ResultSocialMediaDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="row justify-content-center align-items-center">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Sosyal Medya</h4>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>İkon</th>
+                                <th>Açıklama</th>
+                                <th>İkon Url</th>
+                                <th>Güncelle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><i class="@item.url"></i></td>
+                                    <td>@item.name</td>
+                                    <td>@item.url</td>
+                                    <td><a href="/Admin/AdminSocialMedia/UpdateSocialMedia/@item.socialMediaId" class="btn btn-outline-primary waves-effect waves-light">Güncelle</a></td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!-- end card-body-->
+        </div>
+        <!-- end card -->
+
+    </div>
+</div>
+<!-- end col -->

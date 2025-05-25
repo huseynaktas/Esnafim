@@ -1,0 +1,42 @@
+﻿@model List<ResultTestimonialDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="row justify-content-center">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-6 col-xl-3">
+            <div class="card-deck-wrapper">
+                <div class="card-deck">
+                    <div class="card mb-4">
+                        <img class="card-img-top img-fluid" src="@item.imageUrl" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.name</h5>
+                            <p class="card-text">
+                                @item.comment
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted">@item.title</small>
+                            </p>
+                            <div class="d-flex justify-content-end">
+                                <a href="/Admin/AdminTestimonial/UpdateTestimonial/@item.testimonialId" class="btn btn-sm btn-outline-primary btn-rounded waves-effect waves-light mx-1">
+                                    Güncelle
+                                </a>
+                                <a href="/Admin/AdminTestimonial/RemoveTestimonial/@item.testimonialId" class="btn btn-sm btn-outline-danger btn-rounded waves-effect waves-light">
+                                    Sil
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<!-- end row -->
+
+

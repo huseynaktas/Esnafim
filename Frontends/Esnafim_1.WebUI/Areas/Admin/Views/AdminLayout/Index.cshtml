@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+@await Html.PartialAsync("/Areas/Admin/Views/AdminLayout/AdminHeaderPartial.cshtml")
+
+
+<body>
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        @await Html.PartialAsync("/Areas/Admin/Views/AdminLayout/AdminNavbarPartial.cshtml")
+
+
+        <!-- ========== Left Sidebar Start ========== -->
+        @await Html.PartialAsync("/Areas/Admin/Views/AdminLayout/AdminSidebarPartial.cshtml")
+
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    @RenderBody()
+                    <!-- end page title -->
+
+                </div> <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+            @await Html.PartialAsync("/Areas/Admin/Views/AdminLayout/AdminFooterPartial.cshtml")
+
+
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+    @await Html.PartialAsync("/Areas/Admin/Views/AdminLayout/AdminScriptPartial.cshtml")
+    
+
+</body>
+
+</html>
