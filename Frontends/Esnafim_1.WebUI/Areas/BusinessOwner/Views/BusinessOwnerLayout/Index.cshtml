@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+
+    @await Html.PartialAsync("/Areas/BusinessOwner/Views/BusinessOwnerLayout/BusinessOwnerHeaderPartial.cshtml")
+
+@* <head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head> *@
+<body>
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        @await Html.PartialAsync("/Areas/BusinessOwner/Views/BusinessOwnerLayout/BusinessOwnerNavbarPartial.cshtml")
+
+
+        <!-- ========== Left Sidebar Start ========== -->
+        @await Html.PartialAsync("/Areas/BusinessOwner/Views/BusinessOwnerLayout/BusinessOwnerSidebarPartial.cshtml")
+
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    @RenderBody()
+                    <!-- end page title -->
+
+                </div> <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+            @await Html.PartialAsync("/Areas/BusinessOwner/Views/BusinessOwnerLayout/BusinessOwnerFooterPartial.cshtml")
+
+
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+    @await Html.PartialAsync("/Areas/BusinessOwner/Views/BusinessOwnerLayout/BusinessOwnerScriptPartial.cshtml")
+</body>
+</html>

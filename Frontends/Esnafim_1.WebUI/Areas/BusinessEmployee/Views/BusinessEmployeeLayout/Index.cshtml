@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+@await Html.PartialAsync("/Areas/BusinessEmployee/Views/BusinessEmployeeLayout/BusinessEmployeeHeaderPartial.cshtml")
+
+
+<body>
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        @* @await Html.PartialAsync("/Areas/Admin/Views/AdminLayout/AdminNavbarPartial.cshtml") *@
+        @await Html.PartialAsync("/Areas/BusinessEmployee/Views/BusinessEmployeeLayout/BusinessEmployeeNavbarPartial.cshtml")
+
+
+        <!-- ========== Left Sidebar Start ========== -->
+        @await Html.PartialAsync("/Areas/BusinessEmployee/Views/BusinessEmployeeLayout/BusinessEmployeeSidebarPartial.cshtml")
+
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    @RenderBody()
+                    <!-- end page title -->
+
+                </div> <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+            @* @await Html.PartialAsync("/Areas/Admin/Views/AdminLayout/AdminFooterPartial.cshtml") *@
+            @await Html.PartialAsync("/Areas/BusinessEmployee/Views/BusinessEmployeeLayout/BusinessEmployeeFooterPartial.cshtml")
+
+
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+    @await Html.PartialAsync("/Areas/BusinessEmployee/Views/BusinessEmployeeLayout/BusinessEmployeeScriptPartial.cshtml")
+
+
+</body>
+
+</html>

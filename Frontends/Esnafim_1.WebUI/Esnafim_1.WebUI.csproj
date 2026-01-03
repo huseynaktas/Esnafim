@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.22" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +32,10 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\BusinessEmployee\Data\" />
+    <Folder Include="Areas\BusinessEmployee\Models\" />
+    <Folder Include="Areas\BusinessOwner\Data\" />
+    <Folder Include="Areas\BusinessOwner\Models\" />
   </ItemGroup>
 
 </Project>
