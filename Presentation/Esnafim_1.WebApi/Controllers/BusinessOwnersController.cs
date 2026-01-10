@@ -47,6 +47,13 @@ namespace Esnafim_1.WebApi.Controllers
             await _mediator.Send(command);
             return Ok("İşletme Sahibi Güncellendi");
         }
+
+        [HttpGet("GetBusinessByBusinessOwnerId")]
+        public async Task<IActionResult> GetBusinessByBusinessOwnerId()
+        {
+            var result = await _mediator.Send(new GetBusinessesByOwnerIdQuery());
+            return Ok(result);
+        }
     }
 
 

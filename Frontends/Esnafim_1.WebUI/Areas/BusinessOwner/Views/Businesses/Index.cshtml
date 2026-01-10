@@ -1,0 +1,49 @@
+﻿@model List<GetBusinessesByOwnerIdDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/BusinessOwner/Views/BusinessOwnerLayout/Index.cshtml";
+}
+
+<h1>Burası işletmelerin yeri</h1>
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Table head options</h4>
+                <p class="card-subtitle mb-4">
+                    imilar to tables and dark tables, use the modifier
+                    classes <code class="highlighter-rouge">.thead-light</code> or <code class="highlighter-rouge">
+                        .thead-dark
+                    </code> to make <code class="highlighter-rouge">
+                        &lt;thead&gt;
+                    </code>s appear light or dark gray.
+                </p>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>İşletme İsmi</th>
+                                <th>Aktiflik Durumu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.BusinessName</td>
+                                    <td>@item.IsActive</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!-- end card-body-->
+        </div>
+        <!-- end card -->
+
+    </div>
+    <!-- end col -->
+</div>

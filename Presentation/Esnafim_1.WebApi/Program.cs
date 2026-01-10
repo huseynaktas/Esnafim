@@ -6,10 +6,14 @@ using Esnafim_1.Application.Features.CQRS.Handlers.SocialMediaHandlers;
 using Esnafim_1.Application.Features.CQRS.Handlers.TestimonialHandlers;
 using Esnafim_1.Application.Interfaces;
 using Esnafim_1.Application.Interfaces.BusinessInterfaces;
+using Esnafim_1.Application.Interfaces.BusinessOwnerInterfaces;
+using Esnafim_1.Application.Interfaces.CurrentOwnerInterfaces;
 using Esnafim_1.Application.Services;
 using Esnafim_1.Persistence.Context;
 using Esnafim_1.Persistence.Repositories;
+using Esnafim_1.Persistence.Repositories.BusinessOwnerRepositories;
 using Esnafim_1.Persistence.Repositories.BusinessRepositories;
+using Esnafim_1.Persistence.Repositories.CurrentOwnerServiceRepositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +21,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<EsnafimContext>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IBusinessRepository), typeof(BusinessRepository));
+builder.Services.AddScoped(typeof(IBusinessOwnerRepository), typeof(BusinessOwnerRepository));
+//builder.Services.AddScoped(typeof(ICurrentOwnerService), typeof(CurrentOwnerServiceRepository));
+builder.Services.AddScoped<ICurrentOwnerService, CurrentOwnerServiceRepository>();
+
 
 builder.Services.AddScoped<GetAboutQueryHandler>();
 builder.Services.AddScoped<GetAboutByIdQueryHandler>();
