@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Frontends\Esnafim_1.Dto\Esnafim_1.Dto.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Esnafim_1.Persistence\Esnafim_1.Persistence.csproj" />
   </ItemGroup>
 

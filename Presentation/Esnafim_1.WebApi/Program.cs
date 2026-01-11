@@ -23,6 +23,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IBusinessRepository), typeof(BusinessRepository));
 builder.Services.AddScoped(typeof(IBusinessOwnerRepository), typeof(BusinessOwnerRepository));
 //builder.Services.AddScoped(typeof(ICurrentOwnerService), typeof(CurrentOwnerServiceRepository));
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentOwnerService, CurrentOwnerServiceRepository>();
 
 

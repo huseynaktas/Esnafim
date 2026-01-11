@@ -34,6 +34,7 @@ namespace Esnafim_1.Persistence.Context
         public DbSet<User> Users { get; set; }
         public DbSet<UserInRole> UserInRoles { get; set; }
         public DbSet<Service> Services { get; set; }
+        public DbSet<BusinessOwner> BusinessOwner { get; set; }
 
     }
 }
