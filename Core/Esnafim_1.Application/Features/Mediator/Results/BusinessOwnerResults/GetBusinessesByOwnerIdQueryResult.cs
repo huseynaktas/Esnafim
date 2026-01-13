@@ -10,6 +10,8 @@ namespace Esnafim_1.Application.Features.Mediator.Results.BusinessOwnerResults
     {
         public int BusinessId { get; set; }
         public string BusinessName { get; set; } = null!;
+        public string City { get; set; } = null!;
+        public string District { get; set; } = null!;
         public bool IsActive { get; set; }
     }
 }

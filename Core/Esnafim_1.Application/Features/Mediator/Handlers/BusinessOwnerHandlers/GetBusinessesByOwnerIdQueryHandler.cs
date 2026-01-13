@@ -30,6 +30,8 @@ namespace Esnafim_1.Application.Features.Mediator.Handlers.BusinessOwnerHandlers
             {
                 BusinessId = x.BusinessId,
                 BusinessName = x.BusinessName,
+                City = x.City,
+                District = x.District,
                 IsActive = x.IsActive,
             }).ToList();
         }

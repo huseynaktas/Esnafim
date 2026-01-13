@@ -3,28 +3,21 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/BusinessOwner/Views/BusinessOwnerLayout/Index.cshtml";
 }
-
-<h1>Burası işletmelerin yeri</h1>
-
 <div class="row">
     <div class="col">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Table head options</h4>
-                <p class="card-subtitle mb-4">
-                    imilar to tables and dark tables, use the modifier
-                    classes <code class="highlighter-rouge">.thead-light</code> or <code class="highlighter-rouge">
-                        .thead-dark
-                    </code> to make <code class="highlighter-rouge">
-                        &lt;thead&gt;
-                    </code>s appear light or dark gray.
-                </p>
+                <h1>İşletmelerim</h1>
+                <br />
                 <div class="table-responsive">
                     <table class="table mb-0">
                         <thead class="thead-light">
                             <tr>
-                                <th>İşletme İsmi</th>
+                                <th>İşletme Adı</th>
+                                <th class="d-none d-md-table-cell">Şehir</th>
+                                <th class="d-none d-md-table-cell">İlçe</th>
                                 <th>Aktiflik Durumu</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,7 +25,26 @@
                             {
                                 <tr>
                                     <td>@item.BusinessName</td>
-                                    <td>@item.IsActive</td>
+                                    <td class="d-none d-md-table-cell">@item.City</td>
+                                    <td class="d-none d-md-table-cell">@item.District</td>
+                                    <td>
+                                        <span class="badge @(item.IsActive ? "bg-success" : "bg-danger")">
+                                            @(item.IsActive ? "Aktif" : "Pasif")
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a class="btn btn-secondary dropdown-toggle waves-effect waves-light" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                İşlemler <i class="mdi mdi-chevron-down"></i>
+                                            </a>
+
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item" href="#">Çalışanlar</a>
+                                                <a class="dropdown-item" href="/BusinessOwner/BusinessOwnerCalendar/Index/@item.BusinessId">Takvim</a>
+                                                <a class="dropdown-item" href="#">İşletmeyi Düzenle</a>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
