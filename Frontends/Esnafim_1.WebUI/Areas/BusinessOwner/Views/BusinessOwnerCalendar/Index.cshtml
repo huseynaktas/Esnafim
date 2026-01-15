@@ -3,6 +3,7 @@
     Layout = "~/Areas/BusinessOwner/Views/BusinessOwnerLayout/Index.cshtml";
 }
 
+
 <!-- start page title -->
 <div class="row">
     <div class="col-12">
@@ -33,68 +34,6 @@
     </div>
 </div>
 
-<!-- BusinessId'yi JS'e aktar -->
 <script>
-    const businessId = @ViewBag.BusinessId;
-</script>
-
-<script>
-    /*
-     Template Name: Xacton - Admin & Dashboard Template
-     Author: Myra Studio
-     File: Calendar (Inline version)
-    */
-
-    !function($) {
-        "use strict";
-
-        var CalendarPage = function() {};
-
-        CalendarPage.prototype.init = function() {
-
-            // plugin var mı kontrol
-            if ($.isFunction($.fn.fullCalendar)) {
-
-                $('#calendar').fullCalendar({
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'month,basicWeek,basicDay'
-                    },
-                    editable: false,
-                    eventLimit: true,
-
-                    // ✅ Statik events yerine server'dan çek
-                    events: function(start, end, timezone, callback) {
-                        $.ajax({
-                        url: '/BusinessOwner/BusinessOwnerCalendar/GetEvents',
-                        dataType: 'json',
-                        data: {
-                            businessId: businessId,
-                            start: start.format(),
-                            end: end.format()
-                        },
-                        success: function(res){ callback(res); }
-                        });
-                    }
-                });
-
-            } else {
-                alert("Calendar plugin is not installed");
-            }
-        },
-
-        $.CalendarPage = new CalendarPage;
-        $.CalendarPage.Constructor = CalendarPage;
-
-    }(window.jQuery);
-
-    // sayfa yüklenince çalıştır
-    (function($) {
-        "use strict";
-        $(document).ready(function() {
-            $.CalendarPage.init();
-        });
-    })(window.jQuery);
-
+    const businessId = @(ViewBag.BusinessId ?? 0);
 </script>

@@ -1,173 +1,95 @@
-/*
+﻿/*
  Template Name: Xacton - Admin & Dashboard Template
  Author: Myra Studio
- File: Calendar
+ File: Calendar (API consume version)
 */
 
+!function ($) {
+    "use strict";
 
-!function($) {
-  "use strict";
+    var CalendarPage = function () { };
 
-  var CalendarPage = function() {};
+    CalendarPage.prototype.init = function () {
 
-  CalendarPage.prototype.init = function() {
+        if (!$.isFunction($.fn.fullCalendar)) {
+            console.log("FullCalendar plugin not found.");
+            return;
+        }
 
-      //checking if plugin is available
-      if ($.isFunction($.fn.fullCalendar)) {
-          /* initialize the external events */
-          $('#external-events .fc-event').each(function() {
-              // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-              // it doesn't need to have a start or end
-              var eventObject = {
-                  title: $.trim($(this).text()) // use the element's text as the event title
-              };
+        // ✅ external events kısmı (sayfada yoksa patlamasın)
+        if ($("#external-events").length > 0) {
+            $('#external-events .fc-event').each(function () {
 
-              // store the Event Object in the DOM element so we can get to it later
-              $(this).data('eventObject', eventObject);
+                var eventObject = {
+                    title: $.trim($(this).text())
+                };
 
-              // make the event draggable using jQuery UI
-              $(this).draggable({
-                  zIndex: 999,
-                  revert: true, // will cause the event to go back to its
-                  revertDuration: 0 //  original position after the drag
-              });
-          });
-          
-          /* initialize the calendar */
+                $(this).data('eventObject', eventObject);
 
-          var date = new Date();
-          var d = date.getDate();
-          var m = date.getMonth();
-          var y = date.getFullYear();
+                // jQuery UI draggable varsa
+                if ($.isFunction($.fn.draggable)) {
+                    $(this).draggable({
+                        zIndex: 999,
+                        revert: true,
+                        revertDuration: 0
+                    });
+                }
+            });
+        }
 
-          $('#calendar').fullCalendar({
-              header: {
-                  left: 'prev,next today',
-                  center: 'title',
-                  right: 'month,basicWeek,basicDay'
-              },
-              editable: true,
-              eventLimit: true, // allow "more" link when too many events
-              droppable: true, // this allows things to be dropped onto the calendar !!!
-              drop: function(date, allDay) { // this function is called when something is dropped
+        // ✅ double-init olursa takvim görünmeyebilir / bozulabilir
+        if ($('#calendar').data('fullCalendar')) {
+            $('#calendar').fullCalendar('destroy');
+        }
 
-                  // retrieve the dropped element's stored Event Object
-                  var originalEventObject = $(this).data('eventObject');
+        // ✅ businessId sayfada tanımlı mı?
+        // View'da: const businessId = @(ViewBag.BusinessId ?? 0);
+        if (typeof businessId === "undefined") {
+            console.log("businessId is undefined. View tarafında JS'e basılmalı.");
+            return;
+        }
 
-                  // we need to copy it, so that multiple events don't have a reference to the same object
-                  var copiedEventObject = $.extend({}, originalEventObject);
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,basicWeek,basicDay'
+            },
+            editable: false,    // update endpoint yoksa false kalsın
+            droppable: false,   // drop ile ekleme yapılmıyor
+            eventLimit: true,
 
-                  // assign it the date that was reported
-                  copiedEventObject.start = date;
-                  copiedEventObject.allDay = allDay;
+            // ✅ events artık server'dan çekiliyor
+            events: function (start, end, timezone, callback) {
+                $.ajax({
+                    url: '/BusinessOwner/BusinessOwnerCalendar/GetEvents',
+                    dataType: 'json',
+                    data: {
+                        businessId: businessId,
+                        start: start.format(),
+                        end: end.format()
+                    },
+                    success: function (res) {
+                        callback(res);
+                    },
+                    error: function (xhr) {
+                        console.log("GetEvents error:", xhr.status, xhr.responseText);
+                        callback([]);
+                    }
+                });
+            }
+        });
+    };
 
-                  // render the event on the calendar
-                  // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                  $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+    $.CalendarPage = new CalendarPage;
+    $.CalendarPage.Constructor = CalendarPage;
 
-                  // is the "remove after drop" checkbox checked?
-                  if ($('#drop-remove').is(':checked')) {
-                      // if so, remove the element from the "Draggable Events" list
-                      $(this).remove();
-                  }
-
-              },
-              events: [{
-                  title: 'All Day Event',
-                  start: new Date(y, m, 1)
-                  },
-                  {
-                      title: 'Long Event',
-                      start: new Date(y, m, d-5),
-                      end: new Date(y, m, d-2)
-                  },
-                  {
-                      id: 999,
-                      title: 'Repeating Event',
-                      start: new Date(y, m, d-3, 16, 0),
-                      allDay: false
-                  },
-                  {
-                      id: 999,
-                      title: 'Repeating Event',
-                      start: new Date(y, m, d+4, 16, 0),
-                      allDay: false
-                  },
-                  {
-                      title: 'Meeting',
-                      start: new Date(y, m, d, 10, 30),
-                      allDay: false
-                  },
-                  {
-                      title: 'Lunch',
-                      start: new Date(y, m, d, 12, 0),
-                      end: new Date(y, m, d, 14, 0),
-                      allDay: false
-                  },
-                  {
-                      title: 'Birthday Party',
-                      start: new Date(y, m, d+1, 19, 0),
-                      end: new Date(y, m, d+1, 22, 30),
-                      allDay: false
-                  },
-                  {
-                      title: 'Click for Google',
-                      start: new Date(y, m, 28),
-                      end: new Date(y, m, 29),
-                      url: 'http://google.com/'
-                  }]
-          });
-          
-           /*Add new event*/
-          // Form to add new event
-
-          $("#add_event_form").on('submit', function(ev) {
-              ev.preventDefault();
-
-              var $event = $(this).find('.new-event-form'),
-                  event_name = $event.val();
-
-              if (event_name.length >= 3) {
-
-                  var newid = "new" + "" + Math.random().toString(36).substring(7);
-                  // Create Event Entry
-                  $("#external-events").append(
-                      '<div id="' + newid + '" class="fc-event">' + event_name + '</div>'
-                  );
-
-
-                  var eventObject = {
-                      title: $.trim($("#" + newid).text()) // use the element's text as the event title
-                  };
-
-                  // store the Event Object in the DOM element so we can get to it later
-                  $("#" + newid).data('eventObject', eventObject);
-
-                  // Reset draggable
-                  $("#" + newid).draggable({
-                      revert: true,
-                      revertDuration: 0,
-                      zIndex: 999
-                  });
-
-                  // Reset input
-                  $event.val('').focus();
-              } else {
-                  $event.focus();
-              }
-          });
-
-      }
-      else {
-          alert("Calendar plugin is not installed");
-      }
-  },
-  //init
-  $.CalendarPage = new CalendarPage, $.CalendarPage.Constructor = CalendarPage
-}(window.jQuery),
-
-//initializing 
-function($) {
-  "use strict";
-  $.CalendarPage.init()
 }(window.jQuery);
+
+// initializing (document ready ile garanti)
+(function ($) {
+    "use strict";
+    $(document).ready(function () {
+        $.CalendarPage.init();
+    });
+})(window.jQuery);

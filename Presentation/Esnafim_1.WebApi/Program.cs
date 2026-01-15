@@ -5,12 +5,14 @@ using Esnafim_1.Application.Features.CQRS.Handlers.FooterAddressHandlers;
 using Esnafim_1.Application.Features.CQRS.Handlers.SocialMediaHandlers;
 using Esnafim_1.Application.Features.CQRS.Handlers.TestimonialHandlers;
 using Esnafim_1.Application.Interfaces;
+using Esnafim_1.Application.Interfaces.AppointmentInterfaces;
 using Esnafim_1.Application.Interfaces.BusinessInterfaces;
 using Esnafim_1.Application.Interfaces.BusinessOwnerInterfaces;
 using Esnafim_1.Application.Interfaces.CurrentOwnerInterfaces;
 using Esnafim_1.Application.Services;
 using Esnafim_1.Persistence.Context;
 using Esnafim_1.Persistence.Repositories;
+using Esnafim_1.Persistence.Repositories.AppointmentRepositories;
 using Esnafim_1.Persistence.Repositories.BusinessOwnerRepositories;
 using Esnafim_1.Persistence.Repositories.BusinessRepositories;
 using Esnafim_1.Persistence.Repositories.CurrentOwnerServiceRepositories;
@@ -25,6 +27,7 @@ builder.Services.AddScoped(typeof(IBusinessOwnerRepository), typeof(BusinessOwne
 //builder.Services.AddScoped(typeof(ICurrentOwnerService), typeof(CurrentOwnerServiceRepository));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentOwnerService, CurrentOwnerServiceRepository>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 
 
 builder.Services.AddScoped<GetAboutQueryHandler>();

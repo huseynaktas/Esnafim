@@ -47,5 +47,14 @@ namespace Esnafim_1.WebApi.Controllers
             await _mediator.Send(command);
             return Ok("Randevu Güncellendi");
         }
+
+        [HttpGet("GetAppointmentsByBusinessId/{businessId}")]
+        public async Task<IActionResult> GetAppointmentsByBusinessId(int businessId)
+        {
+            var result = await _mediator.Send(
+                new GetAppointmentsByBusinessIdQuery(businessId));
+
+            return Ok(result);
+        }
     }
 }
