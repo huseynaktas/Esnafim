@@ -1,0 +1,92 @@
+﻿@model Esnafim_1.WebUI.Areas.BusinessOwner.ViewModels.BusinessOwnerAppointmentVM.BusinessAppointmentIndexViewModel
+
+@{
+    ViewData["Title"] = "Randevular";
+    Layout = "~/Areas/BusinessOwner/Views/BusinessOwnerLayout/Index.cshtml";
+}
+
+<h4 class="mb-3">Randevular</h4>
+
+<div class="mb-4">
+    <h5>Onay Bekleyenler (@Model.Pending.Count)</h5>
+    <div class="row g-3">
+        @foreach (var item in Model.Pending)
+        {
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title mb-1">@item.UserId</h6>
+                        <div class="text-muted small">@item.StartDate.ToString("dd.MM.yyyy HH:mm")</div>
+                        @if (!string.IsNullOrWhiteSpace(item.Note))
+                        {
+                            <p class="card-text mt-2">@item.Note</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!Model.Pending.Any())
+        {
+            <div class="col-12">
+                <div class="alert alert-light border">Onay bekleyen randevu yok.</div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="mb-4">
+    <h5>Onaylananlar (@Model.Approved.Count)</h5>
+    <div class="row g-3">
+        @foreach (var item in Model.Approved)
+        {
+            <div class="col-md-4">
+                <div class="card border-success">
+                    <div class="card-body">
+                        <h6 class="card-title mb-1">@item.UserId</h6>
+                        <div class="text-muted small">@item.StartDate.ToString("dd.MM.yyyy HH:mm")</div>
+                        @if (!string.IsNullOrWhiteSpace(item.Note))
+                        {
+                            <p class="card-text mt-2">@item.Note</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!Model.Approved.Any())
+        {
+            <div class="col-12">
+                <div class="alert alert-light border">Onaylanan randevu yok.</div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="mb-4">
+    <h5>Geçmiş Randevular (@Model.Past.Count)</h5>
+    <div class="row g-3">
+        @foreach (var item in Model.Past)
+        {
+            <div class="col-md-4">
+                <div class="card border-secondary">
+                    <div class="card-body">
+                        <h6 class="card-title mb-1">@item.UserId</h6>
+                        <div class="text-muted small">@item.StartDate.ToString("dd.MM.yyyy HH:mm")</div>
+                        @if (!string.IsNullOrWhiteSpace(item.Note))
+                        {
+                            <p class="card-text mt-2">@item.Note</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!Model.Past.Any())
+        {
+            <div class="col-12">
+                <div class="alert alert-light border">Geçmiş randevu yok.</div>
+            </div>
+        }
+    </div>
+</div>
