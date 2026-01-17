@@ -23,5 +23,13 @@ namespace Esnafim_1.Dto.AppointmentsDtos
 
         // UI ve filtreleme için hayat kurtarır (past/pending/approved)
         public DateTime StartDate => AppointmentDate.Date + AppointmentTime;
+
+        public string UserName { get; set; }
+        public string UserMail { get; set; }
+        public string UserPhone { get; set; }
+
+        public string EmployeeName { get; set; }
+        public string EmployeMail { get; set; }
+        public string EmployePhone { get; set; }
     }
 }

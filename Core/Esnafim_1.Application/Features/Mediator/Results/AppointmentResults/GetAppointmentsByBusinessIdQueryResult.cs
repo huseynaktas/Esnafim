@@ -21,5 +21,13 @@ namespace Esnafim_1.Application.Features.Mediator.Results.AppointmentResults
         public bool IsApproved { get; set; }
         public DateTime? ApprovedDate { get; set; }
         public bool CustomerArrive { get; set; }
+
+        public string UserName { get; set; }
+        public string UserMail { get; set; }
+        public string UserPhone { get; set; }
+
+        public string EmployeeName { get; set; }
+        public string EmployeMail { get; set; }
+        public string EmployePhone { get; set; }
     }
 }

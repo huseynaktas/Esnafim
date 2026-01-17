@@ -15,12 +15,19 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="card-title mb-1">@item.UserId</h6>
+                        <h6 class="card-title mb-1">@item.UserName</h6>
                         <div class="text-muted small">@item.StartDate.ToString("dd.MM.yyyy HH:mm")</div>
-                        @if (!string.IsNullOrWhiteSpace(item.Note))
+                        @if (!string.IsNullOrWhiteSpace(item.UserName))
                         {
-                            <p class="card-text mt-2">@item.Note</p>
+                            <p class="card-text mt-2">@item.UserName</p>
                         }
+                        <div class="mt-3">
+                            <button type="button"
+                                    class="btn btn-outline-primary btn-sm w-100"
+                                    onclick="showAppointmentDetail(@item.AppointmentId)">
+                                Detay
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,12 +50,19 @@
             <div class="col-md-4">
                 <div class="card border-success">
                     <div class="card-body">
-                        <h6 class="card-title mb-1">@item.UserId</h6>
+                        <h6 class="card-title mb-1">@item.UserName</h6>
                         <div class="text-muted small">@item.StartDate.ToString("dd.MM.yyyy HH:mm")</div>
-                        @if (!string.IsNullOrWhiteSpace(item.Note))
+                        @if (!string.IsNullOrWhiteSpace(item.UserName))
                         {
-                            <p class="card-text mt-2">@item.Note</p>
+                            <p class="card-text mt-2">@item.UserName</p>
                         }
+                        <div class="mt-3">
+                            <button type="button"
+                                    class="btn btn-outline-primary btn-sm w-100"
+                                    onclick="showAppointmentDetail(@item.AppointmentId)">
+                                Detay
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,12 +85,19 @@
             <div class="col-md-4">
                 <div class="card border-secondary">
                     <div class="card-body">
-                        <h6 class="card-title mb-1">@item.UserId</h6>
+                        <h6 class="card-title mb-1">@item.UserName</h6>
                         <div class="text-muted small">@item.StartDate.ToString("dd.MM.yyyy HH:mm")</div>
-                        @if (!string.IsNullOrWhiteSpace(item.Note))
+                        @if (!string.IsNullOrWhiteSpace(item.UserName))
                         {
-                            <p class="card-text mt-2">@item.Note</p>
+                            <p class="card-text mt-2">@item.UserName</p>
                         }
+                        <div class="mt-3">
+                            <button type="button"
+                                    class="btn btn-outline-primary btn-sm w-100"
+                                    onclick="showAppointmentDetail(@item.AppointmentId)">
+                                Detay
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,3 +111,111 @@
         }
     </div>
 </div>
+
+
+@section Scripts {
+    <!-- SweetAlert2 (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // ViewModel içindeki 3 listeyi tek dizide topluyoruz
+        const appointments = [
+            ...@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Pending)),
+            ...@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Approved)),
+            ...@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Past))
+        ];
+
+        function esc(str) {
+            if (str === null || str === undefined) return "";
+            return String(str)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+        function pad2(n) { return String(n).padStart(2, '0'); }
+
+        // JSON serialize edince DateTime string gelir. Güvenli formatlayalım.
+        function formatDateTime(dtStr) {
+            if (!dtStr) return "—";
+            const d = new Date(dtStr);
+            if (isNaN(d.getTime())) return esc(dtStr); // parse edemezse raw bas
+            return `${pad2(d.getDate())}.${pad2(d.getMonth() + 1)}.${d.getFullYear()} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+        }
+
+        function showAppointmentDetail(appointmentId) {
+            // JsonSerializer default olarak PascalCase basar (AppointmentId). Ama güvenlik için iki ihtimali de kontrol edelim
+            const a = appointments.find(x =>
+                (x.AppointmentId !== undefined && x.AppointmentId === appointmentId) ||
+                (x.appointmentId !== undefined && x.appointmentId === appointmentId)
+            );
+
+            if (!a) {
+                Swal.fire("Hata", "Randevu bulunamadı.", "error");
+                return;
+            }
+
+            const userName = esc(a.UserName ?? a.userName ?? "—");
+            const userPhone = esc(a.UserPhone ?? a.userPhone ?? "—");
+            const userMail = esc(a.UserMail ?? a.userMail ?? "—");
+
+            const empName = esc(a.EmployeeName ?? a.employeeName ?? "—");
+            // Dto’da EmployeMail/EmployePhone diye geçiyor:
+            const empPhone = esc(a.EmployePhone ?? a.employePhone ?? "—");
+            const empMail = esc(a.EmployeMail ?? a.employeMail ?? "—");
+
+            const note = esc(a.Note ?? a.note ?? "—");
+            const startDate = formatDateTime(a.StartDate ?? a.startDate);
+
+            const isApproved = (a.IsApproved ?? a.isApproved) === true;
+
+            const badgeHtml = isApproved
+                ? `<span class="badge bg-success">Onaylandı</span>`
+                : `<span class="badge bg-warning text-dark">Onay Bekliyor</span>`;
+
+            const html = `
+                <div style="text-align:center">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <div><b>Randevu Detayı</b></div>
+                        <div>${badgeHtml}</div>
+                    </div>
+
+                    <hr style="margin:10px 0"/>
+
+                    <div style="margin-bottom:12px">
+                        <b>📅 Tarih/Saat: ${startDate}</b><br/>
+                        
+                    </div>
+
+                    <div style="margin-bottom:12px">
+                        <b>👤 Müşteri: ${userName}</b><br/>
+                        <span style="color:#666">📞</span> ${userPhone}<br/>
+                        <span style="color:#666">✉️</span> ${userMail}
+                    </div>
+
+                    <div style="margin-bottom:12px">
+                        <b>🧑‍🔧 Çalışan: ${empName}</b><br/>
+                        <span style="color:#666">📞</span> ${empPhone}<br/>
+                        <span style="color:#666">✉️</span> ${empMail}
+                    </div>
+
+                    <div>
+                        <b>📝 Not</b><br/>
+                        ${note}
+                    </div>
+                </div>
+            `;
+
+            Swal.fire({
+                title: "Detay",
+                html,
+                icon: "info",
+                showCloseButton: true,
+                confirmButtonText: "Kapat",
+                width: 600
+            });
+        }
+    </script>
+}

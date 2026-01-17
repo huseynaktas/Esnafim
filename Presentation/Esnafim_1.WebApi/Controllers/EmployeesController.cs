@@ -46,5 +46,12 @@ namespace Esnafim_1.WebApi.Controllers
             await _mediator.Send(command);
             return Ok("Çalışan Güncellendi");
         }
+
+        [HttpGet("GetEmployeesByBusinessId/{businessId:int}")]
+        public async Task<IActionResult> GetEmployeesByBusinessId(int businessId)
+        {
+            var result = await _mediator.Send(new GetEmployeeListByBusinessIdQuery(businessId));
+            return Ok(result);
+        }
     }
 }

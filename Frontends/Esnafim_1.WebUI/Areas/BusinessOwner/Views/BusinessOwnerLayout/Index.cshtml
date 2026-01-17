@@ -34,6 +34,8 @@
                     <!-- start page title -->
                     @RenderBody()
 
+                    @await RenderSectionAsync("Scripts", required: false)
+
 
                     <!-- end page title -->
 

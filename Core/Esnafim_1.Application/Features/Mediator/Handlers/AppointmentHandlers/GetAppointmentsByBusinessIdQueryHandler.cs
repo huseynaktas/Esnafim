@@ -33,7 +33,13 @@ namespace Esnafim_1.Application.Features.Mediator.Handlers.AppointmentHandlers
                 Note = x.Note,
                 IsApproved = x.IsApproved,
                 ApprovedDate = x.ApprovedDate,
-                CustomerArrive = x.CustomerArrive
+                CustomerArrive = x.CustomerArrive,
+                UserName = x.User.Name,
+                UserMail = x.User.Email,
+                UserPhone = x.User.Phone,
+                EmployeeName = x.Employee.Name,
+                EmployeMail = x.Employee.Email,
+                EmployePhone = x.Employee.PhoneNumber
             }).ToList();
         }
     }
