@@ -1,0 +1,137 @@
+﻿@model Esnafim_1.Dto.BusinessDtos.UpdateBusinessDto
+
+@{
+    ViewData["Title"] = "İşletme Güncelle";
+    Layout = "~/Areas/BusinessOwner/Views/BusinessOwnerLayout/Index.cshtml";
+}
+
+<h4 class="mb-3">İşletme Güncelle</h4>
+
+<form action="/BusinessOwner/Businesses/Edit" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="businessId" />
+
+    <div class="card">
+        <div class="card-body">
+
+            <!-- GENEL -->
+            <h5 class="mb-3">Genel Bilgiler</h5>
+            <div class="row g-3">
+
+                <div class="col-12 col-md-6">
+                    <label class="form-label">İşletme Adı <span class="text-muted">(Değiştirilemez)</span></label>
+                    <input class="form-control" asp-for="businessName" readonly />
+                    <input type="hidden" asp-for="businessName" />
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label class="form-label">Görsel URL</label>
+                    <input class="form-control" asp-for="imageUrl" />
+                    <div class="form-text">Logo/upload işini sonra bağlarız. Şimdilik URL.</div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label class="form-label">Çalışma Saatleri</label>
+                    <input class="form-control" asp-for="workingHours" />
+                </div>
+
+                <div class="col-12 col-md-6 d-flex align-items-end">
+                    <div class="form-check">
+                        <input class="form-check-input" asp-for="isActive" />
+                        <label class="form-check-label">Aktif</label>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <!-- İLETİŞİM -->
+            <h5 class="mb-3">İletişim</h5>
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <label class="form-label">Telefon</label>
+                    <input class="form-control" asp-for="businessPhone" />
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label class="form-label">E-posta</label>
+                    <input class="form-control" asp-for="email" />
+                </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <!-- ADRES -->
+            <h5 class="mb-3">Adres Bilgileri</h5>
+            <div class="row g-3">
+
+                <div class="col-12 col-md-4">
+                    <label class="form-label">Şehir <span class="text-muted">(Değiştirilemez)</span></label>
+                    <input class="form-control" asp-for="city" readonly />
+                    <input type="hidden" asp-for="city" />
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label class="form-label">İlçe <span class="text-muted">(Değiştirilemez)</span></label>
+                    <input class="form-control" asp-for="district" readonly />
+                    <input type="hidden" asp-for="district" />
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label class="form-label">Mahalle <span class="text-muted">(Değiştirilemez)</span></label>
+                    <input class="form-control" asp-for="neighborhood" readonly />
+                    <input type="hidden" asp-for="neighborhood" />
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label">Adres <span class="text-muted">(Değiştirilemez)</span></label>
+                    <textarea class="form-control" asp-for="address" rows="2" readonly></textarea>
+                    <input type="hidden" asp-for="address" />
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label class="form-label">Latitude <span class="text-muted">(Değiştirilemez)</span></label>
+                    <input class="form-control" asp-for="latitude" readonly />
+                    <input type="hidden" asp-for="latitude" />
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label class="form-label">Longitude <span class="text-muted">(Değiştirilemez)</span></label>
+                    <input class="form-control" asp-for="longitude" readonly />
+                    <input type="hidden" asp-for="longitude" />
+                </div>
+
+            </div>
+
+            <hr class="my-4" />
+
+            <!-- SİSTEM -->
+            <h5 class="mb-3">Sistem Bilgileri</h5>
+            <div class="row g-3">
+
+                <div class="col-12 col-md-6">
+                    <label class="form-label">Kayıt Tarihi <span class="text-muted">(Değiştirilemez)</span></label>
+                    <input class="form-control" value="@Model.registrationDate.ToString("dd.MM.yyyy HH:mm")" readonly />
+                    <input type="hidden" asp-for="registrationDate" />
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label class="form-label">İşletme No <span class="text-muted">(Değiştirilemez)</span></label>
+                    <input class="form-control" asp-for="enterpriseNumber" readonly />
+                    <input type="hidden" asp-for="enterpriseNumber" />
+                </div>
+
+            </div>
+
+            <div asp-validation-summary="All" class="text-danger mt-3"></div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-primary" type="submit">Kaydet</button>
+                <a class="btn btn-light border" href="/BusinessOwner/Businesses/Index">Vazgeç</a>
+            </div>
+
+        </div>
+    </div>
+
+</form>

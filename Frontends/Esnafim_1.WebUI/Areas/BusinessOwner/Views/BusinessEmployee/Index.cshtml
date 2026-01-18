@@ -1,0 +1,70 @@
+﻿@model List<Esnafim_1.Dto.EmployeeDtos.GetEmployeeByBusinessIdDto>
+
+@{
+    ViewData["Title"] = "Çalışanlar";
+    Layout = "~/Areas/BusinessOwner/Views/BusinessOwnerLayout/Index.cshtml";
+}
+
+<h4 class="mb-3">Çalışanlar (@Model.Count)</h4>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-light border">
+        Bu işletmeye bağlı çalışan bulunamadı.
+    </div>
+}
+else
+{
+    <div class="row g-3 mt-1">
+        @foreach (var item in Model)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <img class="card-img-top img-fluid"
+                         @* src="@(string.IsNullOrWhiteSpace(item.ImageUrl) ? Url.Content("/Admin/vertical/assets/images/media/sm-1.jpg") : item.ImageUrl)" *@
+                         src="/Admin/vertical/assets/images/media/sm-1.jpg"
+                         alt="Çalışan görseli">
+
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h5 class="card-title mb-1">@item.Name</h5>
+
+                            @if (item.IsActive)
+                            {
+                                <span class="badge bg-success">Aktif</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning">Pasif</span>
+                            }
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(item.PhoneNumber))
+                        {
+                            <div class="text-muted small">📞 @item.PhoneNumber</div>
+                        }
+
+                        @if (!string.IsNullOrWhiteSpace(item.Email))
+                        {
+                            <div class="text-muted small">✉️ @item.Email</div>
+                        }
+
+                        @if (item.RegistrationDate.HasValue)
+                        {
+                            <div class="text-muted small mt-2">
+                                <small>Kayıt: @item.RegistrationDate.Value.ToString("dd.MM.yyyy")</small>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="card-footer bg-white border-0 pt-0">
+                        <a class="btn btn-outline-primary btn-sm w-100" href="#"
+                           onclick="return false;">
+                            Detay (yakında)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
