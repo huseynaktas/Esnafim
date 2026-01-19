@@ -8,20 +8,20 @@ namespace Esnafim_1.WebUI.Areas.BusinessOwner.Controllers
 {
     [Area("BusinessOwner")]
     [Route("BusinessOwner/Businesses")]
-    public class BusinessesController : Controller
+    public class BusinessesController : BusinessOwnerBaseController
     {
         private readonly HttpClient _httpClient;
 
         // Absolute URL yerine sadece endpoint yolu (temiz)
         private const string EndpointPath = "api/BusinessOwners/GetBusinessByBusinessOwnerId";
 
-        public BusinessesController(HttpClient httpClient)
+        public BusinessesController(IHttpClientFactory httpClientFactory): base(httpClientFactory)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClientFactory.CreateClient("EsnafimApi");
 
             // Eğer Program.cs'de zaten ayarlayacaksan burayı kaldırabilirsin,
             // ama şimdilik garanti olsun diye burada bırakıyorum:
-            _httpClient.BaseAddress = new Uri("https://localhost:7028/");
+            //_httpClient.BaseAddress = new Uri("https://localhost:7028/");
         }
 
         [HttpGet("Index")]
@@ -31,8 +31,8 @@ namespace Esnafim_1.WebUI.Areas.BusinessOwner.Controllers
             var ownerId = HttpContext.Session.GetInt32("BusinessOwnerId");
 
             // Login yoksa login sayfasına
-            if (ownerId is null || ownerId <= 0)
-                return RedirectToAction("Index", "FakeAuth", new { area = "BusinessOwner" });
+            //if (ownerId is null || ownerId <= 0)
+            //    return RedirectToAction("Index", "FakeAuth", new { area = "BusinessOwner" });
 
             // Request oluşturup header ekle (en temiz yöntem)
             using var request = new HttpRequestMessage(HttpMethod.Get, EndpointPath);

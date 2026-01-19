@@ -7,14 +7,17 @@ namespace Esnafim_1.WebUI.Areas.BusinessOwner.Controllers
 {
     [Area("BusinessOwner")]
     [Route("BusinessOwner/BusinessAppointment")]
-    public class BusinessAppointmentController : Controller
+    public class BusinessAppointmentController : BusinessOwnerBaseController
     {
         private readonly HttpClient _httpClient;
 
-        public BusinessAppointmentController(HttpClient httpClient)
+        public BusinessAppointmentController(IHttpClientFactory httpClientFactory)
+            : base(httpClientFactory)
         {
-            _httpClient = httpClient;
+            // ✅ Named client: "EsnafimApi"
+            _httpClient = httpClientFactory.CreateClient("EsnafimApi");
         }
+
 
         [Route("Index")]
         [HttpGet("Index/{businessId:int}")]

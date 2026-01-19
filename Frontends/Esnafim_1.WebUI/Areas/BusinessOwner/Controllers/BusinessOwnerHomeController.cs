@@ -6,8 +6,15 @@ namespace Esnafim_1.WebUI.Areas.BusinessOwner.Controllers
 {
     [Area("BusinessOwner")]
     [Route("BusinessOwner/BusinessOwnerHome")]
-    public class BusinessOwnerHomeController : Controller
+    public class BusinessOwnerHomeController : BusinessOwnerBaseController
     {
+        private readonly HttpClient _httpClient;
+
+        public BusinessOwnerHomeController(IHttpClientFactory httpClientFactory) : base(httpClientFactory)
+        {
+            _httpClient = httpClientFactory.CreateClient("EsnafimApi");
+        }
+
         [Route("Index")]
         public IActionResult Index()
         {

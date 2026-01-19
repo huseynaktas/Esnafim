@@ -57,6 +57,20 @@ namespace Esnafim_1.WebUI.Areas.BusinessOwner.Controllers
             return RedirectToAction("Index", "BusinessOwnerHome", new { area = "BusinessOwner" });
         }
 
+        [HttpGet("Logout")]
+        public IActionResult Logout()
+        {
+            // 🔥 Fake login için tüm session bilgilerini temizle
+            HttpContext.Session.Clear();
+
+            // İleride JWT / Cookie kullanırsan diye hazır
+            Response.Cookies.Delete("AccessToken");
+
+            // Login ekranına geri dön
+            return RedirectToAction("Index", "FakeAuth", new { area = "BusinessOwner" });
+        }
+
+
         private sealed class FakeLoginApiResponse
         {
             public int BusinessOwnerId { get; set; }

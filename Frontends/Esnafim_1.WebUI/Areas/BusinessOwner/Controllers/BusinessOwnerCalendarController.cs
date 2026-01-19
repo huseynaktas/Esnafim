@@ -6,14 +6,14 @@ namespace Esnafim_1.WebUI.Areas.BusinessOwner.Controllers
 {
     [Area("BusinessOwner")]
     [Route("BusinessOwner/BusinessOwnerCalendar")]
-    public class BusinessOwnerCalendarController : Controller
+    public class BusinessOwnerCalendarController : BusinessOwnerBaseController
     {
 
         private readonly HttpClient _httpClient;
 
-        public BusinessOwnerCalendarController(HttpClient httpClient)
+        public BusinessOwnerCalendarController(IHttpClientFactory httpClientFactory): base(httpClientFactory) 
         {
-            _httpClient = httpClient;
+            _httpClient = httpClientFactory.CreateClient("EsnafimApi");
         }
 
         // Takvim sayfası (businessId ile aç)
