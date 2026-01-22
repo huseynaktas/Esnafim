@@ -52,10 +52,15 @@
 //app.Run();
 
 
+using Microsoft.AspNetCore.Identity;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // ✅ SERVICES (Build'den önce)
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IPasswordHasher<Esnafim_1.WebUI.ViewModels.UserRegisterViewModel>, PasswordHasher<Esnafim_1.WebUI.ViewModels.UserRegisterViewModel>>();
+
 
 // Session için şart
 builder.Services.AddDistributedMemoryCache();

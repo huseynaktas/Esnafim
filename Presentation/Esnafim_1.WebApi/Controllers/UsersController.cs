@@ -47,5 +47,19 @@ namespace Esnafim_1.WebApi.Controllers
             await _mediator.Send(command);
             return Ok("Kullanıcı Güncellendi");
         }
+
+        [HttpGet("GetByEmail")]
+        public async Task<IActionResult> GetByEmail([FromQuery] string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return BadRequest("email zorunlu.");
+
+            var value = await _mediator.Send(new GetUserByEmailQuery(email));
+
+            if (value == null)
+                return NotFound("Kullanıcı bulunamadı.");
+
+            return Ok(value);
+        }
     }
 }

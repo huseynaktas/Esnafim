@@ -1,7 +1,8 @@
 ﻿<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-        <a class="navbar-brand" href="index.html">Esnaf<span>Im</span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="/Default/Index">Esnaf<span>Im</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="oi oi-menu"></span> Menu
         </button>
 
@@ -12,6 +13,45 @@
                 <li class="nav-item"><a href="/Service/Index" class="nav-link">Servisler</a></li>
                 <li class="nav-item"><a href="/Business/Index" class="nav-link">Esnaflar</a></li>
                 <li class="nav-item"><a href="/Contact/Index" class="nav-link">İletişim</a></li>
+
+                @if (Context.Session.GetInt32("UserId") == null)
+                {
+                    <li class="nav-item">
+                        <a href="/Auth/Login" class="nav-link">Giriş Yap</a>
+                    </li>
+                }
+                else
+                {
+                    <!-- ✅ MOBİL: dropdown yok, iki link -->
+                    <li class="nav-item d-lg-none">
+                        <a href="/User/UserProfile" class="nav-link">
+                            @Context.Session.GetString("UserName") (Profil)
+                        </a>
+                    </li>
+                    <li class="nav-item d-lg-none">
+                        <a href="/Auth/Logout" class="nav-link text-danger">Çıkış Yap</a>
+                    </li>
+
+                    <!-- ✅ DESKTOP: dropdown -->
+                    <li class="nav-item dropdown d-none d-lg-block">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="userDropdown"
+                           role="button"
+                           data-toggle="dropdown"
+                           aria-haspopup="true"
+                           aria-expanded="false">
+                            @Context.Session.GetString("UserName")
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="/User/UserProfile">Profilim</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="/Auth/Logout">Çıkış Yap</a>
+                        </div>
+                    </li>
+                }
+
             </ul>
         </div>
     </div>

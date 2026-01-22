@@ -1,0 +1,98 @@
+﻿@model Esnafim_1.WebUI.ViewModels.UserRegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/UILayout/Index.cshtml";
+}
+
+<style>
+    .sct {
+        position: relative;
+        background: transparent;
+        overflow: hidden;
+    }
+
+        .sct::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d ");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.75; /* %75 opaklık */
+            z-index: 0;
+        }
+
+        /* İçeriği üste alıyoruz */
+        .sct > * {
+            position: relative;
+            z-index: 1;
+        }
+</style>
+
+<section class="ftco-section contact-section sct">
+    <div class="container mt-5">
+        <div class="row d-flex mb-5 contact-info">
+            <div class="col block-9 mb-md-5">
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success">@TempData["Success"]</div>
+                }
+
+                <form class="bg-light p-5 contact-form" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="form-group">
+                        <input asp-for="Name" type="text" class="form-control" placeholder="Adınız Soyadınız">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-6">
+                            <input asp-for="Phone" type="text" class="form-control" placeholder="Telefon Numaranız">
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <input asp-for="Email" type="text" class="form-control" placeholder="Mail Adresiniz">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <input asp-for="City" type="text" class="form-control" placeholder="İl">
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                        <div class="col-4">
+                            <input asp-for="District" type="text" class="form-control" placeholder="İlçe">
+                            <span asp-validation-for="District" class="text-danger"></span>
+                        </div>
+                        <div class="col-4">
+                            <input asp-for="Neighborhood" type="text" class="form-control" placeholder="Mahalle">
+                            <span asp-validation-for="Neighborhood" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input asp-for="Address" type="text" class="form-control" placeholder="Adres">
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Şifre">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group d-flex justify-content-end">
+                        <input type="submit" value="Kaydol" class="btn btn-primary py-3 px-5">
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
