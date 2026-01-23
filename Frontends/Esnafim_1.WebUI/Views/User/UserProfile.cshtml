@@ -1,8 +1,29 @@
-﻿@model GetUserDto
+﻿@model Esnafim_1.WebUI.ViewModels.UserProfileViewModel
 
 @{
     ViewData["Title"] = "UserProfile";
     Layout = "~/Views/UILayout/Index.cshtml";
+
+    var now = DateTime.Now;
+
+    // Saat/tarih birleşimi için yardımcı:
+    Func<Esnafim_1.WebUI.ViewModels.UserAppointmentDto, DateTime> dt =
+        a => a.AppointmentDate.Date.Add(a.AppointmentTime);
+
+    var pending = Model.Appointments
+        .Where(a => !a.IsApproved)
+        .OrderBy(a => dt(a))
+        .ToList();
+
+    var upcoming = Model.Appointments
+        .Where(a => a.IsApproved && dt(a) >= now)
+        .OrderBy(a => dt(a))
+        .ToList();
+
+    var past = Model.Appointments
+        .Where(a => dt(a) < now)
+        .OrderByDescending(a => dt(a))
+        .ToList();
 }
 
 <style>
@@ -47,17 +68,17 @@
 
                     <div class="mb-3">
                         <small class="text-muted">Ad Soyad</small>
-                        <div class="font-weight-bold">@Model.Name</div>
+                        <div class="font-weight-bold">@Model.User.Name</div>
                     </div>
 
                     <div class="mb-3">
                         <small class="text-muted">Email</small>
-                        <div class="font-weight-bold">@Model.Email</div>
+                        <div class="font-weight-bold">@Model.User.Email</div>
                     </div>
 
                     <div class="mb-0">
                         <small class="text-muted">Telefon</small>
-                        <div class="font-weight-bold">@Model.Phone</div>
+                        <div class="font-weight-bold">@Model.User.Phone</div>
                     </div>
                 </div>
             </div>
@@ -70,21 +91,21 @@
                     <div class="row">
                         <div class="col-4 mb-3">
                             <small class="text-muted">İl</small>
-                            <div class="font-weight-bold">@Model.City</div>
+                            <div class="font-weight-bold">@Model.User.City</div>
                         </div>
                         <div class="col-4 mb-3">
                             <small class="text-muted">İlçe</small>
-                            <div class="font-weight-bold">@Model.District</div>
+                            <div class="font-weight-bold">@Model.User.District</div>
                         </div>
                         <div class="col-4 mb-3">
                             <small class="text-muted">Mahalle</small>
-                            <div class="font-weight-bold">@Model.Neighborhood</div>
+                            <div class="font-weight-bold">@Model.User.Neighborhood</div>
                         </div>
                     </div>
 
                     <div class="mb-0">
                         <small class="text-muted">Açık Adres</small>
-                        <div class="font-weight-bold">@Model.Address</div>
+                        <div class="font-weight-bold">@Model.User.Address</div>
                     </div>
                 </div>
             </div>
@@ -95,5 +116,154 @@
             <a href="#" class="btn btn-primary px-4 py-2 disabled">Bilgilerimi Güncelle (yakında)</a>
         </div>
 
+
+        <div class="mt-4">
+            <div class="mb-3 bg-light p-4 rounded shadow-sm">
+                <h5 class="mb-1">Randevularım</h5>
+                <p class="text-muted mb-0">Randevularını burada takip edebilirsin.</p>
+            </div>
+            <div class="d-flex justify-content-center">
+                <ul class="nav nav-pills mb-3 bg-light p-4 rounded shadow-sm" id="apptTabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pending-tab" data-toggle="pill" href="#pending" role="tab">
+                            Onay Bekleyen (@pending.Count)
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="upcoming-tab" data-toggle="pill" href="#upcoming" role="tab">
+                            Onaylanan (@upcoming.Count)
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="past-tab" data-toggle="pill" href="#past" role="tab">
+                            Geçmiş (@past.Count)
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="tab-content" id="apptTabsContent">
+
+                <!-- Onay Bekleyen -->
+                <div class="tab-pane fade show active" id="pending" role="tabpanel">
+                    @if (!pending.Any())
+                    {
+                        <div class="bg-light p-4 rounded shadow-sm text-muted">Onay bekleyen randevun yok.</div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            @foreach (var a in pending)
+                            {
+                                <div class="col-lg-6 mb-3">
+                                    <div class="bg-light p-4 rounded shadow-sm">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="font-weight-bold">@a.BusinessName</div>
+                                            <span class="badge badge-warning">Onay Bekliyor</span>
+                                        </div>
+                                        <div class="text-muted small mb-2">@a.EmployeeName</div>
+
+                                        <div class="mb-2">
+                                            <i class="fa fa-calendar mr-1"></i>
+                                            @dt(a).ToString("dd.MM.yyyy HH:mm")
+                                        </div>
+
+                                        <div class="text-muted">
+                                            <small>Not:</small>
+                                            <div>@a.Note</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <!-- Onaylanan -->
+                <div class="tab-pane fade" id="upcoming" role="tabpanel">
+                    @if (!upcoming.Any())
+                    {
+                        <div class="bg-light p-4 rounded shadow-sm text-muted">Onaylanmış randevun yok.</div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            @foreach (var a in upcoming)
+                            {
+                                <div class="col-lg-6 mb-3">
+                                    <div class="bg-light p-4 rounded shadow-sm">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="font-weight-bold">@a.BusinessName</div>
+                                            <span class="badge badge-success">Onaylandı</span>
+                                        </div>
+                                        <div class="text-muted small mb-2">@a.EmployeeName</div>
+
+                                        <div class="mb-2">
+                                            <i class="fa fa-calendar mr-1"></i>
+                                            @dt(a).ToString("dd.MM.yyyy HH:mm")
+                                        </div>
+
+                                        @if (a.ApprovedDate != DateTime.MinValue)
+                                        {
+                                            <div class="text-muted small">
+                                                Onay Tarihi: @a.ApprovedDate.ToString("dd.MM.yyyy HH:mm")
+                                            </div>
+                                        }
+
+                                        <div class="text-muted mt-2">
+                                            <small>Not:</small>
+                                            <div>@a.Note</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <!-- Geçmiş -->
+                <div class="tab-pane fade" id="past" role="tabpanel">
+                    @if (!past.Any())
+                    {
+                        <div class="bg-light p-4 rounded shadow-sm text-muted">Geçmiş randevun yok.</div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            @foreach (var a in past)
+                            {
+                                <div class="col-lg-6 mb-3">
+                                    <div class="bg-light p-4 rounded shadow-sm">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="font-weight-bold">@a.BusinessName</div>
+                                            <span class="badge badge-secondary">Geçmiş</span>
+                                        </div>
+                                        <div class="text-muted small mb-2">@a.EmployeeName</div>
+
+                                        <div class="mb-2">
+                                            <i class="fa fa-calendar mr-1"></i>
+                                            @dt(a).ToString("dd.MM.yyyy HH:mm")
+                                        </div>
+
+                                        <div class="text-muted">
+                                            <small>Not:</small>
+                                            <div>@a.Note</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+
     </div>
+
+
 </section>
+
+
+

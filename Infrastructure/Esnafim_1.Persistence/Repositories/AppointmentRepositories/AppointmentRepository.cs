@@ -63,5 +63,17 @@ namespace Esnafim_1.Persistence.Repositories.AppointmentRepositories
                             && a.AppointmentDate < end
                             && a.AppointmentTime == time);
         }
+
+        public async Task<List<Appointment>> GetAppointmentsByUserIdAsync(int userId)
+        {
+            return await _context.Appointments
+                .AsNoTracking()
+                .Where(x => x.UserId == userId)
+                .Include(x => x.Employee)
+                .Include(x => x.Business)
+                .OrderByDescending(x => x.AppointmentDate)
+                .ThenByDescending(x => x.AppointmentTime)
+                .ToListAsync();
+        }
     }
 }
