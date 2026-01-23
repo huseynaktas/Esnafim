@@ -30,5 +30,38 @@ namespace Esnafim_1.Persistence.Repositories.AppointmentRepositories
                 .OrderByDescending(x => x.AppointmentDate)
                 .ToListAsync();
         }
+
+        public async Task<List<TimeSpan>> GetOccupiedSlotsAsync(int businessId, int employeeId, DateTime date)
+        {
+            var day = date.Date;
+
+            // .Date çevirimi bazen EF'de sorun çıkarabilir, o yüzden aralık kullanıyoruz (garanti yöntem)
+            var start = day;
+            var end = day.AddDays(1);
+
+            return await _context.Appointments
+                .AsNoTracking()
+                .Where(a => a.BusinessId == businessId
+                         && a.EmployeeId == employeeId
+                         && a.AppointmentDate >= start
+                         && a.AppointmentDate < end)
+                .Select(a => a.AppointmentTime)
+                .ToListAsync();
+        }
+
+        public async Task<bool> HasConflictAsync(int businessId, int employeeId, DateTime date, TimeSpan time)
+        {
+            var day = date.Date;
+            var start = day;
+            var end = day.AddDays(1);
+
+            return await _context.Appointments
+                .AsNoTracking()
+                .AnyAsync(a => a.BusinessId == businessId
+                            && a.EmployeeId == employeeId
+                            && a.AppointmentDate >= start
+                            && a.AppointmentDate < end
+                            && a.AppointmentTime == time);
+        }
     }
 }

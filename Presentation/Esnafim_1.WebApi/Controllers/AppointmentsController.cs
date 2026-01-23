@@ -30,7 +30,7 @@ namespace Esnafim_1.WebApi.Controllers
             return Ok(value);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateAppointment(CreateAppointmentCommand command)
+        public async Task<IActionResult> CreateAppointment([FromBody] CreateAppointmentCommand command)
         {
             await _mediator.Send(command);
             return Ok("Randevu Eklendi");
@@ -54,6 +54,13 @@ namespace Esnafim_1.WebApi.Controllers
             var result = await _mediator.Send(
                 new GetAppointmentsByBusinessIdQuery(businessId));
 
+            return Ok(result);
+        }
+
+        [HttpGet("OccupiedSlots")]
+        public async Task<IActionResult> OccupiedSlots([FromQuery] int businessId, [FromQuery] int employeeId, [FromQuery] DateTime date)
+        {
+            var result = await _mediator.Send(new GetOccupiedSlotsQuery(businessId, employeeId, date));
             return Ok(result);
         }
     }

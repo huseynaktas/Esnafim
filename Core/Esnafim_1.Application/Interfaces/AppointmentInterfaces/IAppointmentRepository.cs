@@ -11,5 +11,8 @@ namespace Esnafim_1.Application.Interfaces.AppointmentInterfaces
     {
         Task<List<Appointment>> GetAppointmentsByBusinessIdAsync(int businessId);
 
+        Task<List<TimeSpan>> GetOccupiedSlotsAsync(int businessId, int employeeId, DateTime date);
+        Task<bool> HasConflictAsync(int businessId, int employeeId, DateTime date, TimeSpan time);
+
     }
 }

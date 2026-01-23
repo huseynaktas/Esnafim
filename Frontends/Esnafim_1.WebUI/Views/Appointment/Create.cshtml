@@ -1,0 +1,139 @@
+﻿@model Esnafim_1.WebUI.ViewModels.CreateAppointmentViewModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Randevu Al";
+    Layout = "~/Views/UILayout/Index.cshtml";
+
+    var employees = ViewBag.Employees as List<SelectListItem> ?? new();
+    var timeSlots = ViewBag.TimeSlots as List<SelectListItem> ?? new();
+}
+
+<style>
+    .sct {
+        position: relative;
+        background: transparent;
+        overflow: hidden;
+    }
+
+        .sct::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d ");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.75; /* %75 opaklık */
+            z-index: 0;
+        }
+
+        /* İçeriği üste alıyoruz */
+        .sct > * {
+            position: relative;
+            z-index: 1;
+        }
+</style>
+
+<section class="ftco-section sct">
+    <div class="container">
+
+        <div class="mb-4 bg-light p-4 rounded shadow-sm">
+            <h3 class="mb-1">Randevu Al</h3>
+            <p class="text-muted mb-0">Çalışan, tarih ve saat seçerek randevu talebi oluştur.</p>
+        </div>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">@TempData["Success"]</div>
+        }
+
+        <div class="bg-light p-4 rounded shadow-sm">
+            <form method="post">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <input asp-for="BusinessId" type="hidden" />
+
+                <div class="form-group">
+                    <label>Çalışan</label>
+                    <select asp-for="EmployeeId" class="form-control" id="employeeSelect">
+                        <option value="">Seçiniz...</option>
+                        @foreach (var e in employees)
+                        {
+                            <option value="@e.Value" selected="@(Model.EmployeeId.ToString()==e.Value)">
+                                @e.Text
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Tarih</label>
+                    <input asp-for="AppointmentDate" type="date" class="form-control" id="dateInput" />
+                    <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Saat</label>
+                    <select asp-for="AppointmentTime" class="form-control" id="timeSelect">
+                        <option value="">Seçiniz...</option>
+                        @foreach (var t in timeSlots)
+                        {
+                            <option value="@t.Value" selected="@(Model.AppointmentTime==t.Value)">
+                                @t.Text
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="AppointmentTime" class="text-danger"></span>
+                    <small class="text-muted d-block mt-1">Saat aralığı: 10:00 - 20:00 (30 dk)</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Not</label>
+                    <textarea asp-for="Note" class="form-control" rows="3" placeholder="Yapılacak işlem..." required></textarea>
+                    <span asp-validation-for="Note" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary px-4 py-2">Randevu Oluştur</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    async function refreshOccupiedSlots() {
+        const businessId = document.querySelector('input[name="BusinessId"]').value;
+        const employeeId = document.getElementById('employeeSelect').value;
+        const date = document.getElementById('dateInput').value;
+        const timeSelect = document.getElementById('timeSelect');
+
+        // tüm seçenekleri aç
+        [...timeSelect.options].forEach(opt => opt.disabled = false);
+
+        if (!employeeId || !date) return;
+
+        const url = `/Appointment/GetOccupiedSlots?businessId=${businessId}&employeeId=${employeeId}&date=${date}`;
+        const resp = await fetch(url);
+        if (!resp.ok) return;
+
+        const occupied = await resp.json(); // ["11:30", "13:00"]
+
+        [...timeSelect.options].forEach(opt => {
+            if (occupied.includes(opt.value)) opt.disabled = true;
+        });
+
+        // seçili saat doluysa sıfırla
+        if (occupied.includes(timeSelect.value)) timeSelect.value = "";
+    }
+
+    document.getElementById('employeeSelect').addEventListener('change', refreshOccupiedSlots);
+    document.getElementById('dateInput').addEventListener('change', refreshOccupiedSlots);
+
+    // sayfa ilk açıldığında da çalıştır (edit gibi senaryolarda faydalı)
+    window.addEventListener('load', refreshOccupiedSlots);
+</script>
