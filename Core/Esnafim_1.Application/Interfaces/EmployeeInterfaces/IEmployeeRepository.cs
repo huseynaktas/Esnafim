@@ -10,5 +10,6 @@ namespace Esnafim_1.Application.Interfaces.EmployeeInterfaces
     public interface IEmployeeRepository
     {
         Task<List<Employee>> GetEmployeesByBusinessIdAsync(int businessId);
+        Task<Employee?> GetByEmailAndPasswordAsync(string email, string password);
     }
 }

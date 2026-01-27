@@ -19,6 +19,17 @@ namespace Esnafim_1.Persistence.Repositories.EmployeeRepositories
             _context = context;
         }
 
+        public async Task<Employee?> GetByEmailAndPasswordAsync(string email, string password)
+        {
+            return await _context.Employees
+                .Include(x => x.BusinessEmployees)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e =>
+                    e.Email == email &&
+                    e.Password == password &&
+                    e.IsActive == true);
+        }
+
         public async Task<List<Employee>> GetEmployeesByBusinessIdAsync(int businessId)
         {
             return await _context.BusinessEmployees
