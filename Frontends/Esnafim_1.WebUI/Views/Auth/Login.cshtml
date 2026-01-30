@@ -29,16 +29,20 @@
             position: relative;
             z-index: 1;
         }
+
 </style>
 
-<section class="ftco-section contact-section sct">
-    <div class="container mt-5">
-        <div class="row d-flex mb-5 contact-info">
-            <div class="col block-9 mb-md-5">
-
-                <form class="bg-light p-5 contact-form" method="post">
+<section class="ftco-section contact-section sct ">
+    <div class="container mt-4">
+        <div class="row d-flex contact-info mb-2">
+            <div class="col block-9">
+                
+                <form class="bg-light p-4 contact-form" method="post">
                     @Html.AntiForgeryToken()
                     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <h3 class="mb-1">Hoşgeldin!</h3>
+                    <p class="text-muted mb-4">Giriş yapmak için email adresini ve şifreni gir!</p>
 
                     <div class="form-group">
                         <input asp-for="Email" type="text" class="form-control" placeholder="Email Adresi">
@@ -56,6 +60,18 @@
                 </form>
 
             </div>
+        </div>
+        <div class="mb-1 bg-light p-4 rounded shadow-sm d-flex align-items-center justify-content-between">
+            <div>
+                <h3 class="mb-1">Henüz Bir Hesabın Yok Mu?</h3>
+                <p class="text-muted mb-0">
+                    Hemen yeni bir hesap oluşturarak randevu serüvenine başla!
+                </p>
+            </div>
+
+            <a href="/Auth/Register" class="btn btn-primary">
+                Kayıt Ol
+            </a>
         </div>
     </div>
 </section>

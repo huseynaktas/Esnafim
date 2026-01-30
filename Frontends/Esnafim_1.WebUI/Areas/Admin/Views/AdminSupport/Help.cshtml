@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "Help";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="mb-0">Yardım & Destek</h3>
+        <a class="btn btn-outline-secondary btn-sm" href="/Admin/Support/Faq">SSS</a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Hızlı Başlangıç</h5>
+                    <p class="text-muted mb-3">
+                        Panel kullanımında en sık yapılan işlemler için kısa rehber.
+                    </p>
+
+                    <div id="adminHelpAcc">
+                        <!-- Item 1 -->
+                        <div class="card">
+                            <div class="card-header" id="h1">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button"
+                                            data-toggle="collapse" data-target="#c1"
+                                            aria-expanded="true" aria-controls="c1">
+                                        Kullanıcı / Rol yönetimi
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div id="c1" class="collapse show" aria-labelledby="h1" data-parent="#adminHelpAcc">
+                                <div class="card-body">
+                                    Kullanıcı ekle, yetki ata, pasife çek gibi işlemleri “Kullanıcılar” bölümünden yönetebilirsin.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="card">
+                            <div class="card-header" id="h2">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button"
+                                            data-toggle="collapse" data-target="#c2"
+                                            aria-expanded="false" aria-controls="c2">
+                                        İşletme kayıtları ve doğrulama
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div id="c2" class="collapse" aria-labelledby="h2" data-parent="#adminHelpAcc">
+                                <div class="card-body">
+                                    İşletme bilgilerini inceleyip gerekli durumlarda güncelleme talep edebilir veya kayıtları kapatabilirsin.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="card">
+                            <div class="card-header" id="h3">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button"
+                                            data-toggle="collapse" data-target="#c3"
+                                            aria-expanded="false" aria-controls="c3">
+                                        Sorun bildirimi
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div id="c3" class="collapse" aria-labelledby="h3" data-parent="#adminHelpAcc">
+                                <div class="card-body">
+                                    Teknik sorunları “Geri Bildirim” sayfasından iletebilirsin.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info mt-3 mb-0">
+                        İpucu: Kritik hata durumlarında ekran görüntüsü + saat bilgisi eklemek çözümü hızlandırır.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="mb-2">Kısa Linkler</h6>
+                    <div class="list-group">
+                        <a class="list-group-item list-group-item-action" href="/Admin/Support/Faq">SSS</a>
+                        <a class="list-group-item list-group-item-action" href="/Admin/Support/Feedback">Geri Bildirim</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mt-3">
+                <div class="card-body">
+                    <h6 class="mb-2">Destek Saatleri</h6>
+                    <p class="text-muted mb-0">Hafta içi: 09:00 – 18:00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

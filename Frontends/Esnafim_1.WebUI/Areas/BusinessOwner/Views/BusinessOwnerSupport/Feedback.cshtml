@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Geri Bildirim";
+    Layout = "~/Areas/BusinessOwner/Views/BusinessOwnerLayout/Index.cshtml";
+}
+
+<div class="container py-4">
+    <h3 class="mb-3">Geri Bildirim</h3>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form method="post" action="/BusinessOwner/Support/Feedback">
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label class="form-label">Kategori</label>
+                    <select class="form-select" name="category">
+                        <option value="0">Öneri</option>
+                        <option value="1">Hata</option>
+                        <option value="2">Kullanım Sorusu</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Konu</label>
+                    <input class="form-control" name="subject" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Mesaj</label>
+                    <textarea class="form-control" name="message" rows="5" required></textarea>
+                </div>
+
+                <button class="btn btn-primary">Gönder</button>
+            </form>
+        </div>
+    </div>
+</div>

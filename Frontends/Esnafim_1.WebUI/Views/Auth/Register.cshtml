@@ -32,19 +32,22 @@
 </style>
 
 <section class="ftco-section contact-section sct">
-    <div class="container mt-5">
-        <div class="row d-flex mb-5 contact-info">
-            <div class="col block-9 mb-md-5">
+    <div class="container mt-4">
+        <div class="row d-flex mb-2 contact-info">
+            <div class="col block-9">
 
                 @if (TempData["Success"] != null)
                 {
                     <div class="alert alert-success">@TempData["Success"]</div>
                 }
 
-                <form class="bg-light p-5 contact-form" method="post">
+                <form class="bg-light p-4 contact-form" method="post">
                     @Html.AntiForgeryToken()
 
                     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <h3 class="mb-1">Hoşgeldin!</h3>
+                    <p class="text-muted mb-4">Kayıt ol ve randevu serüvenine başla!</p>
 
                     <div class="form-group">
                         <input asp-for="Name" type="text" class="form-control" placeholder="Adınız Soyadınız">
@@ -93,6 +96,18 @@
                 </form>
 
             </div>
+        </div>
+        <div class="mb-1 bg-light p-4 rounded shadow-sm d-flex align-items-center justify-content-between">
+            <div>
+                <h3 class="mb-1">Bir Hesabın Var Mı?</h3>
+                <p class="text-muted mb-0">
+                    Hemen giriş yap ve randevu serüvenine başla!
+                </p>
+            </div>
+
+            <a href="/Auth/Login" class="btn btn-primary">
+                Giriş Yap
+            </a>
         </div>
     </div>
 </section>

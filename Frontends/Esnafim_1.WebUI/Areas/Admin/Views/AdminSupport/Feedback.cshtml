@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewData["Title"] = "Feedback";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="mb-0">Geri Bildirim</h3>
+        <a class="btn btn-outline-secondary btn-sm" href="/Admin/Support/Faq">SSS</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <div class="row g-3">
+        <div class="col-lg-7">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="post" action="/Admin/Support/Feedback">
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label class="form-label">Kategori</label>
+                            <select class="form-select" name="category">
+                                <option value="0">Öneri</option>
+                                <option value="1">Hata Bildirimi</option>
+                                <option value="2">Kullanım Sorusu</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Konu</label>
+                            <input class="form-control" name="subject" placeholder="Örn: Kullanıcı listeleme ekranı" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Mesaj</label>
+                            <textarea class="form-control" name="message" rows="5" placeholder="Detayları yaz..." required></textarea>
+                        </div>
+
+                        <button class="btn btn-primary">Gönder</button>
+                        <a class="btn btn-light" href="/Admin/Support/Help">İptal</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="mb-2">İpuçları</h6>
+                    <ul class="text-muted mb-0">
+                        <li>Hata bildiriyorsan adımlarını sırayla yaz.</li>
+                        <li>Varsa ekran görüntüsü ve saat bilgisi ekle.</li>
+                        <li>Hangi panelde olduğunu belirt (Admin/Owner/Employee).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
