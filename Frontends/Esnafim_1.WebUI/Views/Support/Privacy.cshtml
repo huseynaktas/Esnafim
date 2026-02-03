@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewData["Title"] = "Gizlilik Politikası";
+    Layout = "~/Views/UILayout/Index.cshtml";
+}
+
+
+<style>
+    .sct {
+        position: relative;
+        background: transparent;
+        overflow: hidden;
+    }
+
+        .sct::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d ");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.75; /* %75 opaklık */
+            z-index: 0;
+        }
+
+        /* İçeriği üste alıyoruz */
+        .sct > * {
+            position: relative;
+            z-index: 1;
+        }
+</style>
+
+<section class="ftco-section contact-section sct">
+    <div class="container py-5 bg-light mt-4">
+        <h1 class="mb-3">Gizlilik Politikası</h1>
+        <p class="text-muted">Kişisel verilerin nasıl işlendiğini ve korunduğunu açıklar.</p>
+
+        <h5>Toplanan Veriler</h5>
+        <p>Hesap bilgileri, iletişim bilgileri ve randevu kayıtları.</p>
+
+        <h5>Veri Güvenliği</h5>
+        <p>Uygun teknik ve idari tedbirler uygulanır.</p>
+    </div>
+</section>

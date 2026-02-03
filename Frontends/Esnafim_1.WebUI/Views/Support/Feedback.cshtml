@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewData["Title"] = "Feedback";
+    Layout = "~/Views/UILayout/Index.cshtml";
+}
+
+<style>
+    .sct {
+        position: relative;
+        background: transparent;
+        overflow: hidden;
+    }
+
+        .sct::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d ");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.75; /* %75 opaklık */
+            z-index: 0;
+        }
+
+        /* İçeriği üste alıyoruz */
+        .sct > * {
+            position: relative;
+            z-index: 1;
+        }
+</style>
+
+<section class="ftco-section contact-section sct">
+    <div class="container py-5 bg-light mt-4">
+        <h1 class="mb-3">Geri Bildirim</h1>
+        <p class="text-muted">Öneri veya sorunlarını bize yaz.</p>
+
+        @* @if (TempData["FeedbackSuccess"] != null)
+        {
+            <div class="alert alert-success">@TempData["FeedbackSuccess"]</div>
+        } *@
+
+        <form asp-action="Feedback" method="" class="card shadow-sm p-4">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label class="form-label">Ad Soyad</label>
+                <input class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">E-posta</label>
+                <input class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Mesaj</label>
+                <textarea class="form-control" rows="5"></textarea>
+                <span class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary">Gönder</button>
+            </div>
+        </form>
+    </div>
+</section>

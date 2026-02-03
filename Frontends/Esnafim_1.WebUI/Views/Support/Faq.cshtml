@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewData["Title"] = "Faq";
+    Layout = "~/Views/UILayout/Index.cshtml";
+}
+
+<style>
+    .sct {
+        position: relative;
+        background: transparent;
+        overflow: hidden;
+    }
+
+        .sct::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d ");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.75; /* %75 opaklık */
+            z-index: 0;
+        }
+
+        /* İçeriği üste alıyoruz */
+        .sct > * {
+            position: relative;
+            z-index: 1;
+        }
+</style>
+
+<section class="ftco-section contact-section sct">
+    <div class="container py-5 bg-light mt-4">
+        <h1 class="mb-4">Sık Sorulan Sorular (SSS)</h1>
+
+        <div id="faqAcc">
+            <div class="card">
+                <div class="card-header" id="q1">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button"
+                                data-toggle="collapse" data-target="#a1"
+                                aria-expanded="true" aria-controls="a1">
+                            Randevu nasıl alırım?
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="a1" class="collapse show" aria-labelledby="q1" data-parent="#faqAcc">
+                    <div class="card-body">
+                        İşletme seç → hizmet seç → tarih/saat seç → onayla.
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-2">
+                <div class="card-header" id="q2">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button"
+                                data-toggle="collapse" data-target="#a2"
+                                aria-expanded="false" aria-controls="a2">
+                            Randevuyu iptal edebilir miyim?
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="a2" class="collapse" aria-labelledby="q2" data-parent="#faqAcc">
+                    <div class="card-body">
+                        Randevularım sayfasından iptal/erteleme yapılabilir (kural setine göre).
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
