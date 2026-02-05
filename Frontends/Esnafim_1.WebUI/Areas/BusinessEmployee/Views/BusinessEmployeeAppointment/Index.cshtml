@@ -1,0 +1,94 @@
+﻿@model Esnafim_1.WebUI.Areas.BusinessEmployee.ViewModels.BusinessEmployeeAppointmentIndexViewModel
+
+@{
+    ViewData["Title"] = "Randevular";
+    Layout = "~/Areas/BusinessEmployee/Views/BusinessEmployeeLayout/Index.cshtml";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<div class="container-fluid">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h4 class="mb-0">Randevular</h4>
+    </div>
+
+    <ul class="nav nav-pills mb-3" id="apptTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="approved-tab" data-toggle="pill" href="#approved" role="tab">
+                Onaylanan <span class="badge badge-light ml-1">@Model.ApprovedCount</span>
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="pending-tab" data-toggle="pill" href="#pending" role="tab">
+                Onay Bekleyen <span class="badge badge-light ml-1">@Model.PendingCount</span>
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="past-tab" data-toggle="pill" href="#past" role="tab">
+                Geçmiş <span class="badge badge-light ml-1">@Model.PastCount</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="apptTabsContent">
+
+        <!-- APPROVED -->
+        <div class="tab-pane fade show active" id="approved" role="tabpanel">
+            @if (!Model.Approved.Any())
+            {
+                <div class="alert alert-light border">Onaylanan randevu bulunamadı.</div>
+            }
+            else
+            {
+                <div class="row">
+                    @foreach (var item in Model.Approved)
+                    {
+                        @Html.Partial("_AppointmentCard", item)
+                    }
+                </div>
+            }
+        </div>
+
+        <!-- PENDING -->
+        <div class="tab-pane fade" id="pending" role="tabpanel">
+            @if (!Model.Pending.Any())
+            {
+                <div class="alert alert-light border">Onay bekleyen randevu bulunamadı.</div>
+            }
+            else
+            {
+                <div class="row">
+                    @foreach (var item in Model.Pending)
+                    {
+                        @Html.Partial("_AppointmentCard", item)
+                    }
+                </div>
+            }
+        </div>
+
+        <!-- PAST -->
+        <div class="tab-pane fade" id="past" role="tabpanel">
+            @if (!Model.Past.Any())
+            {
+                <div class="alert alert-light border">Geçmiş randevu bulunamadı.</div>
+            }
+            else
+            {
+                <div class="row">
+                    @foreach (var item in Model.Past)
+                    {
+                        @Html.Partial("_AppointmentCard", item)
+                    }
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

@@ -16,5 +16,7 @@ namespace Esnafim_1.Application.Interfaces.AppointmentInterfaces
 
         Task<List<Appointment>> GetAppointmentsByUserIdAsync(int userId);
 
+        Task<List<Appointment>> GetAppointmentsByEmployeeId(int employeeId);
+
     }
 }

@@ -1,0 +1,83 @@
+﻿@model GetAppointmentByEmployeeIdDto
+@using Esnafim_1.WebUI.Areas.BusinessEmployee.ViewModels
+
+@{
+    var time = TimeSpan.TryParse(Model.AppointmentTime, out var ts) ? ts : TimeSpan.Zero;
+    var start = Model.AppointmentDate.Date.Add(time);
+
+    var isPast = start < DateTime.Now;
+    var statusText = isPast ? "Geçmiş" : (Model.IsApproved ? "Onaylandı" : "Onay Bekliyor");
+    var badgeClass = isPast ? "badge-secondary" : (Model.IsApproved ? "badge-success" : "badge-warning");
+}
+
+<div class="col-lg-4 col-md-6">
+    <div class="card shadow-sm mb-3">
+        <div class="card-body">
+
+            <div class="d-flex align-items-center justify-content-between mb-2">
+                <div>
+                    <h5 class="mb-0">#@Model.AppointmentId</h5>
+                    <small class="text-muted">@start.ToString("dd.MM.yyyy HH:mm")</small>
+                </div>
+                <span class="badge @badgeClass">@statusText</span>
+            </div>
+
+
+            <hr />
+
+            <div class="mb-2">
+                <div class="font-weight-bold">@Model.UserName</div>
+                <div class="text-muted small">@Model.UserMail</div>
+                <div class="text-muted small">@Model.UserPhone</div>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Note))
+            {
+                <div class="small">
+                    <span class="text-muted">Not:</span> @Model.Note
+                </div>
+            }
+
+            @if (Model.IsApproved && Model.ApprovedDate.Year > 2000)
+            {
+                <div class="small mt-2 text-muted">
+                    Onay Tarihi: @Model.ApprovedDate.ToString("dd.MM.yyyy HH:mm")
+                </div>
+            }
+
+            <div class="small mt-2">
+                Müşteri Geldi mi:
+                <span class="font-weight-bold">@(Model.CustomerArrive ? "Evet" : "Hayır")</span>
+            </div>
+
+            @if (!isPast && !Model.IsApproved)
+            {
+                <hr />
+                <form method="post"
+                      asp-action="Approve"
+                      asp-controller="BusinessEmployeeAppointment"
+                      asp-area="BusinessEmployee">
+
+                    @Html.AntiForgeryToken()
+
+                    <!-- PUT body için gerekli tüm alanları hidden gönderiyoruz -->
+                    <input type="hidden" name="AppointmentId" value="@Model.AppointmentId" />
+                    <input type="hidden" name="UserId" value="@Model.UserId" />
+                    <input type="hidden" name="BusinessId" value="@Model.BusinessId" />
+                    <input type="hidden" name="EmployeeId" value="@Model.EmployeeId" />
+
+                    <input type="hidden" name="AppointmentDate" value="@Model.AppointmentDate.ToString("o")" />
+                    <input type="hidden" name="AppointmentTime" value="@Model.AppointmentTime" />
+                    <input type="hidden" name="Note" value="@Model.Note" />
+                    <input type="hidden" name="CustomerArrive" value="@Model.CustomerArrive.ToString().ToLower()" />
+
+                    <button type="submit" class="btn btn-success btn-sm btn-block">
+                        Onayla
+                    </button>
+                </form>
+            }
+
+        </div>
+    </div>
+</div>
+

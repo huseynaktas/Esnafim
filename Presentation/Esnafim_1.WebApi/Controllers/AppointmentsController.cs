@@ -70,5 +70,12 @@ namespace Esnafim_1.WebApi.Controllers
             var values = await _mediator.Send(new GetAppointmentsByUserIdQuery(userId));
             return Ok(values);
         }
+
+        [HttpGet("GetAppointmentsByEmployeeId/{employeeId}")]
+        public async Task<IActionResult> GetAppointmentsByEmployeeId(int employeeId)
+        {
+            var values = await _mediator.Send(new GetAppointmentsByEmployeeIdQuery(employeeId));
+            return Ok(values);
+        }
     }
 }

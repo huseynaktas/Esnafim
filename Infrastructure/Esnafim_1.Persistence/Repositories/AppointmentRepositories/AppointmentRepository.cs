@@ -75,5 +75,18 @@ namespace Esnafim_1.Persistence.Repositories.AppointmentRepositories
                 .ThenByDescending(x => x.AppointmentTime)
                 .ToListAsync();
         }
+
+        public async Task<List<Appointment>> GetAppointmentsByEmployeeId(int employeeId)
+        {
+            return await _context.Appointments
+                .AsNoTracking()
+                .Where(x => x.EmployeeId == employeeId)
+                .Include(x => x.User)
+                .Include(x => x.Employee)
+                .Include(x => x.Business)
+                .OrderByDescending(x => x.AppointmentDate)
+                .ThenByDescending(x => x.AppointmentTime)
+                .ToListAsync();
+        }
     }
 }
