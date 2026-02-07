@@ -1,0 +1,83 @@
+﻿@model Esnafim_1.WebUI.Areas.BusinessEmployee.ViewModels.BusinessEmployeeProfileViewModel
+
+@{
+    ViewData["Title"] = "Profil";
+    Layout = "~/Areas/BusinessEmployee/Views/BusinessEmployeeLayout/Index.cshtml";
+}
+
+<div class="container-fluid">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card shadow-sm mb-3">
+                <div class="card-body text-center">
+                    <img src="@(string.IsNullOrWhiteSpace(Model.ImageUrl) ? "https://via.placeholder.com/160" : Model.ImageUrl)"
+                         alt="Profil Fotoğrafı"
+                         style="width:160px;height:160px;object-fit:cover;border-radius:50%;" />
+
+                    <h5 class="mt-3 mb-0">@Model.Name</h5>
+                    <div class="text-muted small">@Model.Email</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h5 class="mb-3">Çalışan Bilgileri</h5>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <div class="text-muted small">Ad Soyad</div>
+                            <div class="font-weight-bold">@Model.Name</div>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <div class="text-muted small">Telefon</div>
+                            <div class="font-weight-bold">@Model.PhoneNumber</div>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <div class="text-muted small">Email</div>
+                            <div class="font-weight-bold">@Model.Email</div>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <div class="text-muted small">Kayıt Tarihi</div>
+                            <div class="font-weight-bold">@Model.RegistrationDate.ToString("dd.MM.yyyy HH:mm")</div>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <h6 class="mb-2">Profil Fotoğrafı Linki</h6>
+
+                    <form method="post" asp-action="UpdateImage" asp-controller="BusinessEmployeeProfile" asp-area="BusinessEmployee">
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group">
+                            <input asp-for="NewImageUrl" class="form-control" placeholder="https://..." />
+                            <span asp-validation-for="NewImageUrl" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Fotoğrafı Güncelle
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

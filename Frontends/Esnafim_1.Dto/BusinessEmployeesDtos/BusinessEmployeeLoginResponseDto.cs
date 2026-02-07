@@ -10,7 +10,7 @@ namespace Esnafim_1.Dto.BusinessEmployeesDtos
     {
         public int EmployeeId { get; set; }
         public int BusinessId { get; set; }
-        public string FullName { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
 
     }
 }

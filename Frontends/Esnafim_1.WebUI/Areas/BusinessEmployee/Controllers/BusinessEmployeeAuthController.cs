@@ -55,7 +55,7 @@ namespace Esnafim_1.WebUI.Areas.BusinessEmployee.Controllers
             // Session’a yaz (BusinessOwner ile karışmasın diye anahtarlar farklı!)
             HttpContext.Session.SetInt32("BusinessEmployeeId", result.EmployeeId);
             HttpContext.Session.SetInt32("BusinessEmployeeBusinessId", result.BusinessId);
-            HttpContext.Session.SetString("BusinessEmployeeName", result.FullName ?? "");
+            HttpContext.Session.SetString("BusinessEmployeeName", result.Name ?? "");
 
             // Çalışan panelinin giriş sayfası neresiyse ona yolla:
             // HomeController/Index varsayımı:
