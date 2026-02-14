@@ -1,0 +1,205 @@
+﻿@model Esnafim_1.Dto.BusinessDtos.GetBusinessByIdDto
+
+@{
+    // Güvenli görsel: boşsa fallback
+    var coverImage = !string.IsNullOrWhiteSpace(Model?.imageUrl)
+        ? Model.imageUrl
+        : "/carbook-master/images/bg_1.jpg"; // sende mevcut olan bir fallback görsel koy
+
+    var fullLocation = $"{Model?.city} / {Model?.district}" +
+                       (!string.IsNullOrWhiteSpace(Model?.neighborhood) ? $" • {Model.neighborhood}" : "");
+
+    var isActiveText = (Model?.isActive ?? false) ? "Aktif" : "Pasif";
+    var isActiveBadge = (Model?.isActive ?? false) ? "badge-success" : "badge-secondary";
+
+    // Çalışma saati boşsa
+    var workingHours = !string.IsNullOrWhiteSpace(Model?.workingHours) ? Model.workingHours : "Belirtilmedi";
+
+    // Kayıt tarihi formatı
+    var regDate = Model != null ? Model.registrationDate.ToString("dd.MM.yyyy") : "-";
+
+    // Harita için lat/long (DTO int ise yine string döner)
+    var lat = Model?.latitude.ToString();
+    var lng = Model?.longitude.ToString();
+
+    // Eğer lat/lng yoksa adresle map aç
+    var hasCoords = !string.IsNullOrWhiteSpace(lat) && !string.IsNullOrWhiteSpace(lng) && lat != "0" && lng != "0";
+    var mapQuery = hasCoords
+        ? $"{lat},{lng}"
+        : Uri.EscapeDataString($"{Model?.address} {Model?.district} {Model?.city}");
+}
+
+<section class="ftco-section ftco-car-details">
+    <div class="container">
+
+        <!-- Kapak -->
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="car-details">
+                    <div class="img rounded"
+                         style="background-image: url('@coverImage'); background-position:center; background-size:cover; min-height: 420px;">
+                    </div>
+
+                    <div class="text text-center">
+                        <span class="subheading">
+                            @fullLocation
+                        </span>
+
+                        <h2 class="mb-2">
+                            @(Model?.businessName ?? "İşletme")
+                            <span class="badge @isActiveBadge ml-2" style="font-size: 12px; vertical-align: middle;">
+                                @isActiveText
+                            </span>
+                        </h2>
+
+                        @if (!string.IsNullOrWhiteSpace(Model?.enterpriseNumber))
+                        {
+                            <p class="text-muted mb-0">
+                                İşletme No: <b>@Model.enterpriseNumber</b>
+                            </p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hızlı Bilgiler -->
+        <div class="row mt-4">
+            <div class="col-lg-8">
+                <div class="p-4 bg-light rounded shadow-sm">
+                    <h4 class="mb-3">Hızlı Bilgiler</h4>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-start bg-white rounded p-3 shadow-sm h-100">
+                                <div class="icon d-flex align-items-center justify-content-center mr-3"
+                                     style="width:46px;height:46px;border-radius:12px;background:rgba(0,0,0,.05);">
+                                    <span class="mdi mdi-phone" style="font-size:22px;"></span>
+                                </div>
+                                <div>
+                                    <div class="text-muted" style="font-size:13px;">Telefon</div>
+                                    <div class="font-weight-bold">
+                                        @(string.IsNullOrWhiteSpace(Model?.businessPhone) ? "Belirtilmedi" : Model.businessPhone)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-start bg-white rounded p-3 shadow-sm h-100">
+                                <div class="icon d-flex align-items-center justify-content-center mr-3"
+                                     style="width:46px;height:46px;border-radius:12px;background:rgba(0,0,0,.05);">
+                                    <span class="mdi mdi-email-outline" style="font-size:22px;"></span>
+                                </div>
+                                <div>
+                                    <div class="text-muted" style="font-size:13px;">E-posta</div>
+                                    <div class="font-weight-bold">
+                                        @(string.IsNullOrWhiteSpace(Model?.email) ? "Belirtilmedi" : Model.email)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-start bg-white rounded p-3 shadow-sm h-100">
+                                <div class="icon d-flex align-items-center justify-content-center mr-3"
+                                     style="width:46px;height:46px;border-radius:12px;background:rgba(0,0,0,.05);">
+                                    <span class="mdi mdi-clock-outline" style="font-size:22px;"></span>
+                                </div>
+                                <div>
+                                    <div class="text-muted" style="font-size:13px;">Çalışma Saatleri</div>
+                                    <div class="font-weight-bold">@workingHours</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-start bg-white rounded p-3 shadow-sm h-100">
+                                <div class="icon d-flex align-items-center justify-content-center mr-3"
+                                     style="width:46px;height:46px;border-radius:12px;background:rgba(0,0,0,.05);">
+                                    <span class="mdi mdi-calendar-check-outline" style="font-size:22px;"></span>
+                                </div>
+                                <div>
+                                    <div class="text-muted" style="font-size:13px;">Kayıt Tarihi</div>
+                                    <div class="font-weight-bold">@regDate</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- CTA -->
+                    <div class="d-flex flex-wrap mt-2" style="gap:10px;">
+                        <a href="tel:@Model?.businessPhone"
+                           class="btn btn-primary"
+                           @(string.IsNullOrWhiteSpace(Model?.businessPhone) ? "disabled" : "")>
+                            <span class="mdi mdi-phone mr-1"></span> Ara
+                        </a>
+
+                        <a href="mailto:@Model?.email"
+                           class="btn btn-outline-primary"
+                           @(string.IsNullOrWhiteSpace(Model?.email) ? "disabled" : "")>
+                            <span class="mdi mdi-email-outline mr-1"></span> E-posta
+                        </a>
+
+                        <a href="https://www.google.com/maps/search/?api=1&query=@mapQuery"
+                           target="_blank"
+                           class="btn btn-outline-dark">
+                            <span class="mdi mdi-map-marker-outline mr-1"></span> Haritada Aç
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Adres -->
+            <div class="col-lg-4 mt-4 mt-lg-0">
+                <div class="p-4 bg-white rounded shadow-sm h-100">
+                    <h4 class="mb-3">Adres</h4>
+
+                    <p class="mb-2">
+                        <span class="mdi mdi-map-marker" style="font-size:18px;"></span>
+                        <span class="ml-1">
+                            @(string.IsNullOrWhiteSpace(Model?.address) ? "Adres bilgisi bulunamadı." : Model.address)
+                        </span>
+                    </p>
+
+                    <p class="text-muted mb-0" style="font-size:14px;">
+                        @(string.IsNullOrWhiteSpace(Model?.neighborhood) ? "" : $"{Model.neighborhood}, ")
+                        @Model?.district @Model?.city
+                    </p>
+
+                    <hr />
+
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="text-muted" style="font-size:13px;">Durum</span>
+                        <span class="badge @isActiveBadge">@isActiveText</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Harita -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="bg-white rounded shadow-sm overflow-hidden">
+                    <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0">Konum</h4>
+                        <small class="text-muted">Google Maps</small>
+                    </div>
+
+                    <div style="width:100%; height:380px;">
+                        <iframe width="100%"
+                                height="380"
+                                style="border:0;"
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                src="https://www.google.com/maps?q=@mapQuery&z=15&output=embed">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -8,5 +8,11 @@ namespace Esnafim_1.WebUI.Controllers
         {
             return View();
         }
+
+        public IActionResult BusinessDetails(int businessId)
+        {
+            ViewBag.BusinessId = businessId;
+            return View();
+        }
     }
 }

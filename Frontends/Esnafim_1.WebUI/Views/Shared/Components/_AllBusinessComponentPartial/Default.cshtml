@@ -15,7 +15,9 @@
                                 <span class="cat">@item.city / @item.district</span>
                                 <p class="price ml-auto">@item.workingHours</p>
                             </div>
-                            <p class="d-flex mb-0 d-block"><a href="/Appointment/Create?businessId=@item.businessId" class="btn btn-primary py-2 mr-1">Randevu Al</a> <a href="car-single.html" class="btn btn-secondary py-2 ml-1">Detaylar</a></p>
+                            <p class="d-flex mb-0 d-block">
+                                <a href="/Appointment/Create?businessId=@item.businessId" class="btn btn-primary py-2 mr-1">Randevu Al</a> 
+                                <a href="/Business/BusinessDetails?businessId=@item.businessId" class="btn btn-secondary py-2 ml-1">Detaylar</a></p>
                         </div>
                     </div>
                 </div>
