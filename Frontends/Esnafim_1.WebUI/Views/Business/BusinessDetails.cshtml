@@ -7,3 +7,4 @@
 
 @await Component.InvokeAsync("_BusinessDetailMainCoverComponentPartial")
 @await Component.InvokeAsync("_BusinessDetailComponentPartial", new { businessId = (int)ViewBag.BusinessId })
+@await Component.InvokeAsync("_BusinessDetailBusinessEmployeeComponentPartial", new { businessId = (int)ViewBag.BusinessId })

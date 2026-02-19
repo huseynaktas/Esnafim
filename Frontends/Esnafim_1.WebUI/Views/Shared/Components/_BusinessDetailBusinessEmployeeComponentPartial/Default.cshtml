@@ -1,0 +1,92 @@
+﻿@model List<Esnafim_1.Dto.EmployeeDtos.GetEmployeeByBusinessIdDto>
+
+<section class="ftco-section bg-light" style="padding-top: 35px; padding-bottom: 35px;">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <div>
+                <h3 class="mb-1">Çalışanlar</h3>
+                <p class="text-muted mb-0">İşletmeye ait çalışanları buradan görüntüleyebilirsin.</p>
+            </div>
+        </div>
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="alert alert-info mb-0">
+                Bu işletmeye ait çalışan bulunamadı.
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    var img = (!string.IsNullOrWhiteSpace(item.ImageUrl) && item.ImageUrl != "string")
+                    ? item.ImageUrl
+                    : "/Admin/vertical/assets/images/users/avatar-3.jpg"; // sende olan bir fallback ver
+
+                    var badgeClass = item.IsActive ? "badge-success" : "badge-secondary";
+                    var badgeText = item.IsActive ? "Aktif" : "Pasif";
+
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="bg-white rounded shadow-sm p-3 h-100">
+                            <div class="d-flex align-items-center">
+                                <div class="mr-3">
+                                    <img src="@img"
+                                         alt="@item.Name"
+                                         style="width:64px;height:64px;object-fit:cover;border-radius:16px;"
+                                         onerror="this.onerror=null;this.src='/Admin/vertical/assets/images/users/avatar-3.jpg';" />
+                                </div>
+
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h5 class="mb-0">@item.Name</h5>
+                                        <span class="badge @badgeClass">@badgeText</span>
+                                    </div>
+
+                                    <div class="text-muted" style="font-size:13px;">
+                                        Kayıt: @(item.RegistrationDate?.ToString("dd.MM.yyyy") ?? "-")
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <div class="d-flex flex-wrap" style="gap:10px;">
+                                @if (!string.IsNullOrWhiteSpace(item.PhoneNumber))
+                                {
+                                    <a class="btn btn-primary btn-sm" href="tel:@item.PhoneNumber">
+                                        <span class="mdi mdi-phone mr-1"></span> Ara
+                                    </a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-primary btn-sm" disabled>
+                                        <span class="mdi mdi-phone mr-1"></span> Ara
+                                    </button>
+                                }
+
+                                @if (!string.IsNullOrWhiteSpace(item.Email))
+                                {
+                                    <a class="btn btn-outline-primary btn-sm" href="mailto:@item.Email">
+                                        <span class="mdi mdi-email-outline mr-1"></span> E-posta
+                                    </a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-outline-primary btn-sm" disabled>
+                                        <span class="mdi mdi-email-outline mr-1"></span> E-posta
+                                    </button>
+                                }
+
+                                <!-- Sonraki adım: Randevu Al -->
+                                <a class="btn btn-outline-dark btn-sm ml-auto" href="javascript:void(0)">
+                                    <span class="mdi mdi-calendar-check-outline mr-1"></span> Randevu
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
