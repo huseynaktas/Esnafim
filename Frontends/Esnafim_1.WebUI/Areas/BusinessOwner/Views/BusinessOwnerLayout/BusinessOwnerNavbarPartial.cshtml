@@ -1,4 +1,8 @@
-﻿<header id="page-topbar">
+﻿@{
+    var ownerName = Context.Session.GetString("BusinessOwnerName");
+}
+
+<header id="page-topbar">
     <div class="navbar-header">
 
         <div class="d-flex align-items-left">
@@ -151,7 +155,9 @@
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="~/Admin/vertical/assets/images/users/avatar-3.jpg"
                          alt="Header Avatar">
-                    <span class="d-none d-sm-inline-block ml-1">İsim: </span>
+                    <span class="d-none d-sm-inline-block ml-1">
+                        @(string.IsNullOrWhiteSpace(ownerName) ? "İsim Yok" : ownerName)
+                    </span>
                     <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -161,7 +167,7 @@
                             <span class="badge badge-pill badge-info">3</span>
                         </span>
                     </a>
-                    <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                    <a class="dropdown-item d-flex align-items-center justify-content-between" href="/BusinessOwner/BusinessOwnerProfile/Index">
                         <span>Profil</span>
                         <span>
                             <span class="badge badge-pill badge-warning">1</span>

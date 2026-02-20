@@ -1,0 +1,247 @@
+﻿@model Esnafim_1.WebUI.Areas.BusinessOwner.ViewModels.BusinessOwnerProfileViewModel
+
+@{
+    ViewData["Title"] = "Profil";
+    Layout = "~/Areas/BusinessOwner/Views/BusinessOwnerLayout/Index.cshtml";
+
+    var initials = "";
+    if (!string.IsNullOrWhiteSpace(Model?.Name))
+    {
+        var parts = Model.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        initials = string.Join("", parts.Take(2).Select(x => char.ToUpperInvariant(x[0])));
+    }
+}
+
+<style>
+    .profile-cover {
+        border-radius: 18px;
+        overflow: hidden;
+        position: relative;
+    }
+
+        .profile-cover .cover-bg {
+            height: 140px;
+            background: radial-gradient(1200px circle at 10% 10%, rgba(99,102,241,.35), transparent 55%), radial-gradient(1200px circle at 90% 20%, rgba(16,185,129,.28), transparent 55%), linear-gradient(135deg, rgba(15,23,42,.95), rgba(2,6,23,.95));
+        }
+
+    .profile-avatar {
+        width: 84px;
+        height: 84px;
+        border-radius: 22px;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 26px;
+        letter-spacing: .5px;
+        color: #fff;
+        background: linear-gradient(135deg, rgba(99,102,241,.95), rgba(16,185,129,.9));
+        border: 4px solid rgba(255,255,255,.85);
+        box-shadow: 0 12px 30px rgba(0,0,0,.2);
+        margin-top: -42px;
+    }
+
+    .profile-meta small {
+        opacity: .8;
+    }
+
+    .info-row {
+        padding: 14px 14px;
+        border-radius: 14px;
+        background: rgba(15,23,42,.04);
+        border: 1px solid rgba(15,23,42,.06);
+    }
+
+    .info-label {
+        font-size: .78rem;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        color: rgba(15,23,42,.55);
+        margin-bottom: 4px;
+    }
+
+    .badge-soft {
+        background: rgba(16,185,129,.12);
+        color: #0f766e;
+        border: 1px solid rgba(16,185,129,.25);
+        padding: .35rem .55rem;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: .85rem;
+    }
+
+    .badge-soft-danger {
+        background: rgba(239,68,68,.10);
+        color: #b91c1c;
+        border: 1px solid rgba(239,68,68,.22);
+    }
+
+    .quick-card {
+        border-radius: 18px;
+    }
+</style>
+
+<div class="container-fluid">
+
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <div>
+            <h4 class="mb-0">Profil</h4>
+            <small class="text-muted">Hesap bilgilerini buradan görüntüleyebilirsin</small>
+        </div>
+
+        <div class="d-flex gap-2">
+            <a class="btn btn-sm btn-outline-secondary mx-1" href="/BusinessOwner/BusinessOwnerHome/Index">
+                Panele Dön
+            </a>
+            <a class="btn btn-sm btn-outline-danger" href="/BusinessOwner/FakeAuth/Logout">
+                Çıkış Yap
+            </a>
+        </div>
+    </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+    @if (ViewBag.Success != null)
+    {
+        <div class="alert alert-success">@ViewBag.Success</div>
+    }
+
+    <div class="row g-3">
+
+        <!-- Sol: Profil kartı -->
+        <div class="col-xl-4">
+            <div class="card shadow-sm profile-cover">
+                <div class="cover-bg"></div>
+                <div class="card-body pt-0">
+                    <div class="d-flex align-items-start justify-content-between px-2">
+                        <div class="profile-avatar">
+                            @(string.IsNullOrWhiteSpace(initials) ? "BO" : initials)
+                        </div>
+
+                        <div class="mt-3">
+                            @if (Model.IsActive)
+                            {
+                                <span class="badge-soft">● Aktif</span>
+                            }
+                            else
+                            {
+                                <span class="badge-soft badge-soft-danger">● Pasif</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="px-2 mt-3 profile-meta">
+                        <h5 class="mb-1">@Model.Name</h5>
+                        <small class="text-muted d-block">@Model.Email</small>
+
+                        <div class="mt-3 d-flex flex-wrap gap-2">
+                            <span class="badge bg-light text-dark border mx-1">Şehir: @Model.City</span>
+                            <span class="badge bg-light text-dark border">Tel: @Model.PhoneNumber</span>
+                        </div>
+
+                        <hr class="my-3" />
+
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="text-muted small">Kayıt Tarihi</div>
+                                <div class="fw-semibold">@Model.RegistrationDate.ToString("dd.MM.yyyy")</div>
+                            </div>
+
+                            <div class="text-end">
+                                <div class="text-muted small">Hesap Tipi</div>
+                                <div class="fw-semibold">İşletme Sahibi</div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info mt-3 mb-0" style="border-radius: 14px;">
+                            Profil Güncelleme (Yakında)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+
+        <!-- Sağ: Detaylar -->
+        <div class="col-xl-8">
+            <div class="card shadow-sm" style="border-radius:18px;">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div>
+                            <h5 class="mb-0">Hesap Detayları</h5>
+                            <small class="text-muted">Bilgiler salt-okunur</small>
+                        </div>
+                        <span class="badge bg-light text-dark border">ID: @Model.BusinessOwnerId</span>
+                    </div>
+
+                    <div class="row g-3 mt-1">
+                        <div class="col-md-6 my-1">
+                            <div class="info-row">
+                                <div class="info-label">Ad Soyad</div>
+                                <div class="fw-semibold">@Model.Name</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 my-1">
+                            <div class="info-row">
+                                <div class="info-label">E-posta</div>
+                                <div class="fw-semibold">@Model.Email</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 my-1">
+                            <div class="info-row">
+                                <div class="info-label">Telefon</div>
+                                <div class="fw-semibold">@Model.PhoneNumber</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 my-1">
+                            <div class="info-row">
+                                <div class="info-label">Şehir</div>
+                                <div class="fw-semibold">@Model.City</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 my-1">
+                            <div class="info-row">
+                                <div class="info-label">Durum</div>
+                                <div class="fw-semibold">
+                                    @(Model.IsActive ? "Aktif" : "Pasif")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 my-1">
+                            <div class="info-row">
+                                <div class="info-label">Kayıt Tarihi</div>
+                                <div class="fw-semibold">@Model.RegistrationDate.ToString("dd.MM.yyyy")</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <!-- İleriye dönük alan: Ayarlar / Güvenlik -->
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded-4">
+                                <div class="fw-semibold mb-1">Güvenlik</div>
+                                <small class="text-muted d-block mb-2">Şifre ve giriş güvenliği</small>
+                                <button class="btn btn-sm btn-outline-secondary" disabled>Şifre Değiştir (yakında)</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded-4">
+                                <div class="fw-semibold mb-1">Bildirimler</div>
+                                <small class="text-muted d-block mb-2">E-posta / SMS ayarları</small>
+                                <button class="btn btn-sm btn-outline-secondary" disabled>Bildirim Ayarları (yakında)</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

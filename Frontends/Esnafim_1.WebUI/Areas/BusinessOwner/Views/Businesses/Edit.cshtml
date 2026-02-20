@@ -3,135 +3,346 @@
 @{
     ViewData["Title"] = "İşletme Güncelle";
     Layout = "~/Areas/BusinessOwner/Views/BusinessOwnerLayout/Index.cshtml";
+
+    var statusText = Model.isActive ? "Aktif" : "Pasif";
+    var statusClass = Model.isActive ? "badge-soft-success" : "badge-soft-danger";
 }
 
-<h4 class="mb-3">İşletme Güncelle</h4>
+<style>
+    .page-hero {
+        border-radius: 18px;
+        overflow: hidden;
+        position: relative;
+        border: 1px solid rgba(15,23,42,.08);
+        background:
+            radial-gradient(1200px circle at 10% 10%, rgba(99,102,241,.18), transparent 55%),
+            radial-gradient(1200px circle at 90% 20%, rgba(16,185,129,.14), transparent 55%),
+            linear-gradient(135deg, rgba(255,255,255,.85), rgba(255,255,255,.95));
+    }
 
-<form action="/BusinessOwner/Businesses/Edit" method="post">
-    @Html.AntiForgeryToken()
+    .section-card {
+        border-radius: 18px;
+        border: 1px solid rgba(15,23,42,.08);
+    }
 
-    <input type="hidden" asp-for="businessId" />
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: .65rem;
+        margin-bottom: .25rem;
+    }
 
-    <div class="card">
-        <div class="card-body">
+    .section-title .icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: rgba(99,102,241,.10);
+        border: 1px solid rgba(99,102,241,.18);
+    }
 
-            <!-- GENEL -->
-            <h5 class="mb-3">Genel Bilgiler</h5>
-            <div class="row g-3">
+    .section-sub {
+        color: rgba(15,23,42,.6);
+        font-size: .92rem;
+        margin-bottom: 0;
+    }
 
-                <div class="col-12 col-md-6">
-                    <label class="form-label">İşletme Adı <span class="text-muted">(Değiştirilemez)</span></label>
-                    <input class="form-control" asp-for="businessName" readonly />
-                    <input type="hidden" asp-for="businessName" />
+    .badge-soft-success {
+        background: rgba(16,185,129,.12);
+        color: #0f766e;
+        border: 1px solid rgba(16,185,129,.25);
+        padding: .35rem .55rem;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: .85rem;
+    }
+
+    .badge-soft-danger {
+        background: rgba(239,68,68,.10);
+        color: #b91c1c;
+        border: 1px solid rgba(239,68,68,.22);
+        padding: .35rem .55rem;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: .85rem;
+    }
+
+    .mini-nav {
+        position: sticky;
+        top: 84px;
+    }
+
+    .mini-nav a {
+        text-decoration: none;
+        border-radius: 14px;
+        padding: .65rem .75rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid rgba(15,23,42,.08);
+        background: rgba(15,23,42,.02);
+        color: rgba(15,23,42,.78);
+        transition: all .15s ease;
+    }
+
+    .mini-nav a:hover {
+        background: rgba(99,102,241,.08);
+        border-color: rgba(99,102,241,.22);
+        color: rgba(15,23,42,.92);
+        transform: translateY(-1px);
+    }
+
+    .readonly-hint {
+        border-radius: 14px;
+        border: 1px dashed rgba(15,23,42,.18);
+        background: rgba(15,23,42,.02);
+        padding: .75rem;
+        color: rgba(15,23,42,.7);
+    }
+</style>
+
+<div class="container-fluid">
+
+    <!-- HERO -->
+    <div class="page-hero p-3 p-md-4 mb-3">
+        <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+            <div>
+                <div class="d-flex align-items-center gap-2">
+                    <h4 class="mb-0">İşletme Ayarları</h4>
+                    <span class="@statusClass">● @statusText</span>
                 </div>
-
-                <div class="col-12 col-md-6">
-                    <label class="form-label">Görsel URL</label>
-                    <input class="form-control" asp-for="imageUrl" />
-                    <div class="form-text">Logo/upload işini sonra bağlarız. Şimdilik URL.</div>
+                <div class="text-muted mt-1">
+                    Genel bilgiler, iletişim ve sistem detaylarını buradan yönetebilirsin.
                 </div>
+            </div>
 
-                <div class="col-12 col-md-6">
-                    <label class="form-label">Çalışma Saatleri</label>
-                    <input class="form-control" asp-for="workingHours" />
-                </div>
+            <div class="d-flex gap-2">
+                <button form="businessEditForm" class="btn btn-primary">
+                    Kaydet
+                </button>
+                <a class="btn btn-light border" href="/BusinessOwner/Businesses/Index">
+                    Vazgeç
+                </a>
+            </div>
+        </div>
 
-                <div class="col-12 col-md-6 d-flex align-items-end">
-                    <div class="form-check">
-                        <input class="form-check-input" asp-for="isActive" />
-                        <label class="form-check-label">Aktif</label>
+        <div class="mt-3 readonly-hint">
+            <b>Not:</b> Değiştirilemeyen alanlar gri ve salt-okunur. Adres/konum gibi alanları ileride ayrı bir “Adres Güncelle” akışıyla açabiliriz.
+        </div>
+    </div>
+
+    <form id="businessEditForm" action="/BusinessOwner/Businesses/Edit" method="post">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="businessId" />
+
+        <div class="row g-3">
+            <!-- Left mini nav -->
+            <div class="col-xl-3">
+                <div class="mini-nav d-grid gap-2">
+                    <a href="#sec-general">
+                        <span>Genel</span>
+                        <span class="text-muted">›</span>
+                    </a>
+                    <a href="#sec-contact">
+                        <span>İletişim</span>
+                        <span class="text-muted">›</span>
+                    </a>
+                    <a href="#sec-address">
+                        <span>Adres</span>
+                        <span class="text-muted">›</span>
+                    </a>
+                    <a href="#sec-system">
+                        <span>Sistem</span>
+                        <span class="text-muted">›</span>
+                    </a>
+
+                    <div class="card section-card shadow-sm mt-1">
+                        <div class="card-body">
+                            <div class="fw-semibold">Hızlı Özet</div>
+                            <div class="text-muted small mt-1">Kaydedeceğin alanlar:</div>
+                            <ul class="small mb-0 mt-2 ps-3">
+                                <li>Görsel URL</li>
+                                <li>Çalışma Saatleri</li>
+                                <li>Telefon / E-posta</li>
+                                <li>Aktiflik Durumu</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <hr class="my-4" />
+            <!-- Right content -->
+            <div class="col-xl-9">
 
-            <!-- İLETİŞİM -->
-            <h5 class="mb-3">İletişim</h5>
-            <div class="row g-3">
-                <div class="col-12 col-md-6">
-                    <label class="form-label">Telefon</label>
-                    <input class="form-control" asp-for="businessPhone" />
+                <!-- GENEL -->
+                <div id="sec-general" class="card section-card shadow-sm mb-3">
+                    <div class="card-body">
+                        <div class="section-title">
+                            <div class="icon">
+                                <i class="mdi mdi-store-outline"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">Genel Bilgiler</h5>
+                                <p class="section-sub">İşletmenin temel ayarları</p>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">İşletme Adı <span class="text-muted">(Değiştirilemez)</span></label>
+                                <input class="form-control" asp-for="businessName" readonly />
+                                <input type="hidden" asp-for="businessName" />
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Görsel URL</label>
+                                <input class="form-control" asp-for="imageUrl" placeholder="https://..." />
+                                <div class="form-text">Logo/upload işini sonra bağlarız. Şimdilik URL.</div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Çalışma Saatleri</label>
+                                <input class="form-control" asp-for="workingHours" placeholder="Örn: 09:00 - 19:00" />
+                            </div>
+
+                            <div class="col-12 col-md-6 d-flex align-items-end">
+                                <div class="d-flex align-items-center justify-content-between w-100 p-3 border rounded-4">
+                                    <div>
+                                        <div class="fw-semibold">İşletme Durumu</div>
+                                        <div class="text-muted small">Listede görünürlüğü etkiler</div>
+                                    </div>
+                                    <div class="form-check form-switch m-0">
+                                        <input class="form-check-input" asp-for="isActive" />
+                                        <label class="form-check-label">Aktif</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col-12 col-md-6">
-                    <label class="form-label">E-posta</label>
-                    <input class="form-control" asp-for="email" />
+                <!-- İLETİŞİM -->
+                <div id="sec-contact" class="card section-card shadow-sm mb-3">
+                    <div class="card-body">
+                        <div class="section-title">
+                            <div class="icon">
+                                <i class="mdi mdi-phone-outline"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">İletişim</h5>
+                                <p class="section-sub">Müşterilerin sana ulaşacağı bilgiler</p>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Telefon</label>
+                                <input class="form-control" asp-for="businessPhone" placeholder="05xx xxx xx xx" />
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">E-posta</label>
+                                <input class="form-control" asp-for="email" placeholder="info..." />
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- ADRES -->
+                <div id="sec-address" class="card section-card shadow-sm mb-3">
+                    <div class="card-body">
+                        <div class="section-title">
+                            <div class="icon" style="background: rgba(16,185,129,.10); border-color: rgba(16,185,129,.18);">
+                                <i class="mdi mdi-map-marker-outline"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">Adres Bilgileri</h5>
+                                <p class="section-sub">Şimdilik salt-okunur (ileride ayrı akış)</p>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-2">
+
+                            <div class="col-12 col-md-4">
+                                <label class="form-label">Şehir <span class="text-muted">(Değiştirilemez)</span></label>
+                                <input class="form-control" asp-for="city" readonly />
+                                <input type="hidden" asp-for="city" />
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <label class="form-label">İlçe <span class="text-muted">(Değiştirilemez)</span></label>
+                                <input class="form-control" asp-for="district" readonly />
+                                <input type="hidden" asp-for="district" />
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <label class="form-label">Mahalle <span class="text-muted">(Değiştirilemez)</span></label>
+                                <input class="form-control" asp-for="neighborhood" readonly />
+                                <input type="hidden" asp-for="neighborhood" />
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Adres <span class="text-muted">(Değiştirilemez)</span></label>
+                                <textarea class="form-control" asp-for="address" rows="2" readonly></textarea>
+                                <input type="hidden" asp-for="address" />
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Latitude <span class="text-muted">(Değiştirilemez)</span></label>
+                                <input class="form-control" asp-for="latitude" readonly />
+                                <input type="hidden" asp-for="latitude" />
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Longitude <span class="text-muted">(Değiştirilemez)</span></label>
+                                <input class="form-control" asp-for="longitude" readonly />
+                                <input type="hidden" asp-for="longitude" />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SİSTEM -->
+                <div id="sec-system" class="card section-card shadow-sm mb-3">
+                    <div class="card-body">
+                        <div class="section-title">
+                            <div class="icon" style="background: rgba(15,23,42,.06); border-color: rgba(15,23,42,.12);">
+                                <i class="mdi mdi-shield-outline"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">Sistem Bilgileri</h5>
+                                <p class="section-sub">Referans bilgiler (salt-okunur)</p>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Kayıt Tarihi <span class="text-muted">(Değiştirilemez)</span></label>
+                                <input class="form-control" value="@Model.registrationDate.ToString("dd.MM.yyyy HH:mm")" readonly />
+                                <input type="hidden" asp-for="registrationDate" />
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">İşletme No <span class="text-muted">(Değiştirilemez)</span></label>
+                                <input class="form-control" asp-for="enterpriseNumber" readonly />
+                                <input type="hidden" asp-for="enterpriseNumber" />
+                            </div>
+                        </div>
+
+                        <div asp-validation-summary="All" class="text-danger mt-3"></div>
+                    </div>
+                </div>
+
+                <!-- Bottom actions (mobile-friendly) -->
+                <div class="d-flex gap-2 mt-2 mb-4">
+                    <button class="btn btn-primary" type="submit">Kaydet</button>
+                    <a class="btn btn-light border" href="/BusinessOwner/Businesses/Index">Vazgeç</a>
+                </div>
+
             </div>
-
-            <hr class="my-4" />
-
-            <!-- ADRES -->
-            <h5 class="mb-3">Adres Bilgileri</h5>
-            <div class="row g-3">
-
-                <div class="col-12 col-md-4">
-                    <label class="form-label">Şehir <span class="text-muted">(Değiştirilemez)</span></label>
-                    <input class="form-control" asp-for="city" readonly />
-                    <input type="hidden" asp-for="city" />
-                </div>
-
-                <div class="col-12 col-md-4">
-                    <label class="form-label">İlçe <span class="text-muted">(Değiştirilemez)</span></label>
-                    <input class="form-control" asp-for="district" readonly />
-                    <input type="hidden" asp-for="district" />
-                </div>
-
-                <div class="col-12 col-md-4">
-                    <label class="form-label">Mahalle <span class="text-muted">(Değiştirilemez)</span></label>
-                    <input class="form-control" asp-for="neighborhood" readonly />
-                    <input type="hidden" asp-for="neighborhood" />
-                </div>
-
-                <div class="col-12">
-                    <label class="form-label">Adres <span class="text-muted">(Değiştirilemez)</span></label>
-                    <textarea class="form-control" asp-for="address" rows="2" readonly></textarea>
-                    <input type="hidden" asp-for="address" />
-                </div>
-
-                <div class="col-12 col-md-6">
-                    <label class="form-label">Latitude <span class="text-muted">(Değiştirilemez)</span></label>
-                    <input class="form-control" asp-for="latitude" readonly />
-                    <input type="hidden" asp-for="latitude" />
-                </div>
-
-                <div class="col-12 col-md-6">
-                    <label class="form-label">Longitude <span class="text-muted">(Değiştirilemez)</span></label>
-                    <input class="form-control" asp-for="longitude" readonly />
-                    <input type="hidden" asp-for="longitude" />
-                </div>
-
-            </div>
-
-            <hr class="my-4" />
-
-            <!-- SİSTEM -->
-            <h5 class="mb-3">Sistem Bilgileri</h5>
-            <div class="row g-3">
-
-                <div class="col-12 col-md-6">
-                    <label class="form-label">Kayıt Tarihi <span class="text-muted">(Değiştirilemez)</span></label>
-                    <input class="form-control" value="@Model.registrationDate.ToString("dd.MM.yyyy HH:mm")" readonly />
-                    <input type="hidden" asp-for="registrationDate" />
-                </div>
-
-                <div class="col-12 col-md-6">
-                    <label class="form-label">İşletme No <span class="text-muted">(Değiştirilemez)</span></label>
-                    <input class="form-control" asp-for="enterpriseNumber" readonly />
-                    <input type="hidden" asp-for="enterpriseNumber" />
-                </div>
-
-            </div>
-
-            <div asp-validation-summary="All" class="text-danger mt-3"></div>
-
-            <div class="d-flex gap-2 mt-4">
-                <button class="btn btn-primary" type="submit">Kaydet</button>
-                <a class="btn btn-light border" href="/BusinessOwner/Businesses/Index">Vazgeç</a>
-            </div>
-
         </div>
-    </div>
-
-</form>
+    </form>
+</div>
